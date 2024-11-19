@@ -12,19 +12,28 @@
         .navbar a {
             color: white;
         }
-        .navbar .form-select,
-        .navbar .form-control {
-            max-width: 600px;
-            margin-right: 10px;
-        }
-        .navbar .btn {
-            font-size: 1.2rem;
-        }
         .card img {
             width: 100%;
-            height: 150px;
+            height: auto; /* Incrementar altura de imágenes de artistas */
             object-fit: cover;
             border-radius: 5px;
+        }
+        .carousel-inner img {
+            height: 400px; /* Incrementar altura de imágenes del carrusel */
+            object-fit: cover;
+        }
+        .list-group-item img {
+            width: 50px; /* Tamaño fijo de las imágenes en canciones recientes */
+            height: 50px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-right: 15px;
+        }
+        .dropdown-menu a {
+            color: black !important; /* Cambiar el color de las letras del dropdown a negro */
+        }
+        .dropdown-menu a:hover {
+            background-color: #f8f9fa; /* Agregar un efecto hover para resaltar el item */
         }
     </style>
 </head>
@@ -37,68 +46,106 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
-                    <li class="nav-item"><a class="nav-link" href="#">Explorar</a></li>
-                    <li class="nav-item"><a class="nav-link" href="profile.html">Mi Perfil</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="genreDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Géneros
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="genreDropdown">
+                            <li><a class="dropdown-item" href="#">Rock</a></li>
+                            <li><a class="dropdown-item" href="#">Pop</a></li>
+                            <li><a class="dropdown-item" href="#">Hip-Hop</a></li>
+                            <li><a class="dropdown-item" href="#">Electrónica</a></li>
+                            <li><a class="dropdown-item" href="#">Jazz</a></li>
+                            <li><a class="dropdown-item" href="#">Reggaeton</a></li>
+                        </ul>
+                    </li>
                 </ul>
-                <form class="d-flex w-75">
-                    <select class="form-select me-2 w-25">
-                        <option value="">Filtrar por género</option>
-                        <option value="rock">Rock</option>
-                        <option value="pop">Pop</option>
-                        <option value="jazz">Jazz</option>
-                        <option value="electronic">Electrónica</option>
-                    </select>
-                    <input type="text" class="form-control me-2 w-50" placeholder="Buscar por artista o canción">
-                    <button class="btn btn-light" type="submit">Buscar</button>
-                </form>
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="login.html">Cerrar Sesión</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Mis Playlist</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Más</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <div class="container">
-        <h1 class="text-center mb-4">Recomendaciones de Música</h1>
+    <div id="mainCarousel" class="carousel slide mt-4" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="/Proyecto_DASW/images/Bohemian_Rhapsody.jpg" class="d-block w-100" alt="Slide 1">
+            </div>
+            <div class="carousel-item">
+                <img src="/Proyecto_DASW/images/Divide.jpeg" class="d-block w-100" alt="Slide 2">
+            </div>
+            <div class="carousel-item">
+                <img src="/Proyecto_DASW/images/Take_five.jpg" class="d-block w-100" alt="Slide 3">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+    <div class="container mt-4">
+        <h2 class="mb-4">Top Artistas</h2>
         <div class="row">
-            <div class="col-md-4 mb-4">
+            <div class="col-md-6 mb-4">
                 <div class="card">
-                    <img src="/Proyecto_DASW/images/Bohemian_Rhapsody.jpg" alt="Bohemian Rhapsody">
-                    <div class="card-body">
-                        <h5 class="card-title">Bohemian Rhapsody</h5>
-                        <p class="card-text"><strong>Artista:</strong> Queen</p>
-                        <p class="card-text"><strong>Género:</strong> Rock</p>
-                        <p class="card-text"><strong>Calificación:</strong> ★★★★★</p>
-                        <a href="detail.html" class="btn btn-primary w-100">Ver más</a>
+                    <img src="/Proyecto_DASW/images/Billie_Eilish.webp" alt="Artista 1">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Billie Eilish</h5>
+                        <a href="#" class="btn btn-primary">Ver más</a>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 mb-4">
+            <div class="col-md-6 mb-4">
                 <div class="card">
-                    <img src="/Proyecto_DASW/images/Divide.jpeg" alt="Shape of You">
-                    <div class="card-body">
-                        <h5 class="card-title">Shape of You</h5>
-                        <p class="card-text"><strong>Artista:</strong> Ed Sheeran</p>
-                        <p class="card-text"><strong>Género:</strong> Pop</p>
-                        <p class="card-text"><strong>Calificación:</strong> ★★★★☆</p>
-                        <a href="detail.html" class="btn btn-primary w-100">Ver más</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <img src="/Proyecto_DASW/images/Take_five.jpg" alt="Take Five">
-                    <div class="card-body">
-                        <h5 class="card-title">Take Five</h5>
-                        <p class="card-text"><strong>Artista:</strong> Dave Brubeck</p>
-                        <p class="card-text"><strong>Género:</strong> Jazz</p>
-                        <p class="card-text"><strong>Calificación:</strong> ★★★★★</p>
-                        <a href="detail.html" class="btn btn-primary w-100">Ver más</a>
+                    <img src="/Proyecto_DASW/images/Peso_Pluma.webp" alt="Artista 2">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Peso Pluma</h5>
+                        <a href="#" class="btn btn-primary">Ver más</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="container mt-4">
+        <h2 class="mb-4">Canciones Recientes</h2>
+        <ul class="list-group">
+            <li class="list-group-item d-flex align-items-center">
+                <img src="/Proyecto_DASW/images/Kanye_west-Graduation.jpg" alt="Album 1">
+                Stronger - Kanye West
+            </li>
+            <li class="list-group-item d-flex align-items-center">
+                <img src="/Proyecto_DASW/images/Kanye_west-MBDTF.jpg" alt="Album 2">
+                Power - Kanye West
+            </li>
+            <li class="list-group-item d-flex align-items-center">
+                <img src="/Proyecto_DASW/images/Kanye_west-808s_and_Heartbreak.jpg" alt="Album 3">
+                Heartless - Kanye West
+            </li>
+            <li class="list-group-item d-flex align-items-center">
+                <img src="/Proyecto_DASW/images/Kanye_west-Late_Registration.jpg" alt="Album 4">
+                Gold Digger - Kanye West
+            </li>
+            <li class="list-group-item d-flex align-items-center">
+                <img src="/Proyecto_DASW/images/Kanye_west-Graduation.jpg" alt="Album 5">
+                Flashing Lights - Kanye West
+            </li>
+        </ul>
+    </div>
+    <nav class="mt-4">
+        <ul class="pagination justify-content-center">
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+        </ul>
+    </nav>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explorar - Recomendaciones de Música</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-image: url('https://i.etsystatic.com/25550108/r/il/134080/3193362920/il_fullxfull.3193362920_q03f.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.9); /* Fondo blanco semi-transparente */
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .navbar {
+            background: rgba(0, 0, 0, 0.8);
+        }
+        .navbar a {
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">MusicApp</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#">Explorar</a></li>
+                    <li class="nav-item"><a class="nav-link" href="profile.html">Mi Perfil</a></li>
+                    <li class="nav-item"><a class="nav-link" href="login.html">Cerrar Sesión</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido principal -->
+    <div class="container">
+        <h1 class="text-center mb-4">Recomendaciones de Música</h1>
+        <!-- Filtros -->
+        <div class="mb-3">
+            <input type="text" class="form-control mb-2" placeholder="Buscar por artista o canción">
+            <select class="form-select">
+                <option value="">Filtrar por género</option>
+                <option value="rock">Rock</option>
+                <option value="pop">Pop</option>
+                <option value="jazz">Jazz</option>
+                <option value="electronic">Electrónica</option>
+            </select>
+        </div>
+
+        <!-- Lista de recomendaciones -->
+        <div class="row">
+            <!-- Recomendación 1 -->
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <img style="width: 100%; height: auto;" src="/images/Bohemian_Rhapsody.jpg">
+                        <h5 class="card-title">Bohemian Rhapsody</h5>
+                        <p class="card-text"><strong>Artista:</strong> Queen</p>
+                        <p class="card-text"><strong>Género:</strong> Rock</p>
+                        <p class="card-text"><strong>Calificación:</strong> ★★★★★</p>
+                        <a href="detail.html" class="btn btn-primary w-100">Ver más</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Recomendación 2 -->
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <img style="width: 100%; height: auto;" src="/images/Divide.jpeg">
+                        <h5 class="card-title">Shape of You</h5>
+                        <p class="card-text"><strong>Artista:</strong> Ed Sheeran</p>
+                        <p class="card-text"><strong>Género:</strong> Pop</p>
+                        <p class="card-text"><strong>Calificación:</strong> ★★★★☆</p>
+                        <a href="detail.html" class="btn btn-primary w-100">Ver más</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Recomendación 3 -->
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <img style="width: 100%; height: auto;" src="/images/Take_five.jpg">
+                        <h5 class="card-title">Take Five</h5>
+                        <p class="card-text"><strong>Artista:</strong> Dave Brubeck</p>
+                        <p class="card-text"><strong>Género:</strong> Jazz</p>
+                        <p class="card-text"><strong>Calificación:</strong> ★★★★★</p>
+                        <a href="detail.html" class="btn btn-primary w-100">Ver más</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MusicArtist - Mis Playlists</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .playlist-header {
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.5));
+            padding: 2rem;
+            color: white;
+            display: flex;
+            align-items: flex-end;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .playlist-cover {
+            width: 232px;
+            height: 232px;
+            box-shadow: 0 4px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .playlist-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .playlist-buttons {
+            margin-top: 2rem;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .play-button {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+        }
+
+        .play-button:hover {
+            transform: scale(1.1);
+        }
+
+        .song-list {
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .song-item {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .song-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .song-number {
+            width: 40px;
+            text-align: right;
+            margin-right: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .playlist-card {
+            transition: background-color 0.3s;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .playlist-card:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+        }
+
+        .playlist-card img {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-music me-2"></i>MusicArtist
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="genreDropdown" role="button" data-bs-toggle="dropdown">
+                            Géneros
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="rock.html"><i class="fas fa-guitar me-2"></i>Rock</a></li>
+                            <li><a class="dropdown-item" href="Pop.html"><i class="fas fa-music me-2"></i>Pop</a></li>
+                            <li><a class="dropdown-item" href="Hip-hop.html"><i class="fas fa-microphone me-2"></i>Hip-Hop</a></li>
+                            <li><a class="dropdown-item" href="Electronica.html"><i class="fas fa-record-vinyl me-2"></i>Electrónica</a></li>
+                            <li><a class="dropdown-item" href="Jazz.html"><i class="fas fa-saxophone me-2"></i>Jazz</a></li>
+                            <li><a class="dropdown-item" href="Reggaeton.html"><i class="fas fa-drum me-2"></i>Reggaeton</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="playlist.html"><i class="fas fa-list me-2"></i>Mis Playlist</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-ellipsis-h me-2"></i>Más</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.html"><i class="fas fa-sign-in-alt me-2"></i>Iniciar Sesión</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid mt-4">
+        <div class="row">
+            <!-- Sección de Playlists -->
+            <div class="col-md-3">
+                <h3 class="mb-4">Tus Playlists</h3>
+                <div class="playlist-grid">
+                    <div class="playlist-card mb-3">
+                        <img src="/Proyecto_DASW/images/playlist_rock.jpg" alt="Rock Classics">
+                        <div class="p-3">
+                            <h5 class="mb-1">Rock Classics</h5>
+                            <p class="text-secondary mb-0">15 canciones</p>
+                        </div>
+                    </div>
+                    <div class="playlist-card mb-3">
+                        <img src="/Proyecto_DASW/images/playlist_pop.jpg" alt="Pop Hits">
+                        <div class="p-3">
+                            <h5 class="mb-1">Pop Hits 2024</h5>
+                            <p class="text-secondary mb-0">23 canciones</p>
+                        </div>
+                    </div>
+                    <div class="playlist-card mb-3">
+                        <img src="/Proyecto_DASW/images/playlist_hiphop.jpg" alt="Hip-Hop Mix">
+                        <div class="p-3">
+                            <h5 class="mb-1">Hip-Hop Mix</h5>
+                            <p class="text-secondary mb-0">18 canciones</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contenido de la Playlist Seleccionada -->
+            <div class="col-md-9">
+                <div class="playlist-header">
+                    <img src="/Proyecto_DASW/images/playlist_rock.jpg" alt="Rock Classics" class="playlist-cover">
+                    <div class="playlist-info">
+                        <span>PLAYLIST</span>
+                        <h1 class="display-4">Rock Classics</h1>
+                        <p>Tu colección de los mejores clásicos del rock</p>
+                        <div class="d-flex align-items-center gap-2">
+                            <img src="/Proyecto_DASW/images/user_avatar.jpg" alt="Usuario" class="rounded-circle" style="width: 24px; height: 24px;">
+                            <span>Usuario</span>
+                            <span>•</span>
+                            <span>15 canciones</span>
+                            <span>•</span>
+                            <span>58 min</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="playlist-buttons">
+                    <button class="play-button">►</button>
+                    <button class="btn btn-outline-light">Editar</button>
+                </div>
+
+                <div class="song-list mt-4">
+                    <div class="song-header d-flex align-items-center p-2 text-secondary">
+                        <div style="width: 40px">#</div>
+                        <div style="flex: 2">Título</div>
+                        <div style="flex: 1">Álbum</div>
+                        <div style="width: 100px">Duración</div>
+                    </div>
+                    <div class="song-item">
+                        <div class="song-number">1</div>
+                        <img src="/Proyecto_DASW/images/Bohemian_Rhapsody.jpg" alt="Bohemian Rhapsody" style="width: 40px; height: 40px; margin-right: 1rem;">
+                        <div style="flex: 2">
+                            <div>Bohemian Rhapsody</div>
+                            <div class="text-secondary">Queen</div>
+                        </div>
+                        <div style="flex: 1" class="text-secondary">A Night at the Opera</div>
+                        <div style="width: 100px" class="text-secondary">5:54</div>
+                    </div>
+                    <div class="song-item">
+                        <div class="song-number">2</div>
+                        <img src="/Proyecto_DASW/images/Nirvana-Nevermind.jpeg" alt="Smells Like Teen Spirit" style="width: 40px; height: 40px; margin-right: 1rem;">
+                        <div style="flex: 2">
+                            <div>Smells Like Teen Spirit</div>
+                            <div class="text-secondary">Nirvana</div>
+                        </div>
+                        <div style="flex: 1" class="text-secondary">Nevermind</div>
+                        <div style="width: 100px" class="text-secondary">5:01</div>
+                    </div>
+                    <div class="song-item">
+                        <div class="song-number">3</div>
+                        <img src="/Proyecto_DASW/images/Muse.jpeg" alt="Starlight" style="width: 40px; height: 40px; margin-right: 1rem;">
+                        <div style="flex: 2">
+                            <div>Starlight</div>
+                            <div class="text-secondary">Muse</div>
+                        </div>
+                        <div style="flex: 1" class="text-secondary">Black Holes and Revelations</div>
+                        <div style="width: 100px" class="text-secondary">4:00</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

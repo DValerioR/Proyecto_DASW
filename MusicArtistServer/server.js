@@ -71,25 +71,23 @@ const songSchema = new mongoose.Schema({
     title: { type: String, required: true }, // Título de la canción
     album: { type: mongoose.Schema.Types.ObjectId, ref: 'Album', required: true }, // Referencia al álbum
     duration: { type: String }, // Duración de la canción (ej. "3:45")
+    music: { type: String, required: true } // URL o ruta del archivo MP4
 });
 
-// Middleware para generar el _id de la canción antes de guardar
+// Middleware para generar el _id automáticamente antes de guardar
 songSchema.pre('save', async function (next) {
     try {
-        // Obtener el álbum referenciado
         const album = await Album.findById(this.album);
 
         if (!album) {
             throw new Error('Álbum no encontrado para la canción');
         }
 
-        // Generar iniciales del artista
         const artistInitials = album.artist
             .split(' ')
             .map(word => word[0].toUpperCase())
             .join('');
 
-        // Título del álbum en camelCase
         const albumTitleCamelCase = album.title
             .split(' ')
             .map((word, index) =>
@@ -99,7 +97,6 @@ songSchema.pre('save', async function (next) {
             )
             .join('');
 
-        // Título de la canción en camelCase
         const songTitleCamelCase = this.title
             .split(' ')
             .map((word, index) =>
@@ -109,7 +106,6 @@ songSchema.pre('save', async function (next) {
             )
             .join('');
 
-        // Asignar el _id personalizado
         this._id = `${artistInitials}-${albumTitleCamelCase}-${songTitleCamelCase}`;
         next();
     } catch (error) {
@@ -118,6 +114,7 @@ songSchema.pre('save', async function (next) {
 });
 
 const Song = mongoose.model('Song', songSchema);
+
 
 // Endpoints base
 app.get('/', (req, res) => {

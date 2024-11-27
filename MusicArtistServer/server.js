@@ -3,8 +3,6 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const multer = require('multer');
-const path = require('path');
 
 const app = express();
 const PORT = 3000;
@@ -35,40 +33,6 @@ mongoose.connection.on('error', (err) => {
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('Conexión a MongoDB establecida'))
     .catch(err => console.error('Error inicial al conectar a MongoDB:', err));
-
-// Configuración de multer para subida de archivos
-const storage = multer.diskStorage({
-    destination: function(req, file, cb) {
-        if (file.fieldname === 'music') {
-            cb(null, 'public/uploads/music');
-        } else if (file.fieldname === 'image') {
-            cb(null, 'public/uploads/images');
-        }
-    },
-    filename: function(req, file, cb) {
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
-    }
-});
-
-const upload = multer({
-    storage: storage,
-    limits: {
-        fileSize: 10 * 1024 * 1024 // 10MB límite
-    },
-    fileFilter: (req, file, cb) => {
-        if (file.fieldname === 'music') {
-            if (!file.originalname.match(/\.(mp3|mp4|wav)$/)) {
-                return cb(new Error('Por favor sube un archivo de audio válido'));
-            }
-        } else if (file.fieldname === 'image') {
-            if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
-                return cb(new Error('Por favor sube una imagen válida'));
-            }
-        }
-        cb(null, true);
-    }
-});
 
 // Esquema de Usuario
 const userSchema = new mongoose.Schema({
@@ -102,10 +66,10 @@ const userSchema = new mongoose.Schema({
         name: String,
         songs: [{ type: String, ref: 'Song' }]
     }],
-    createdAt: {
-        type: Date,
-        default: Date.now
-    }
+    playHistory: [{
+        song: { type: String, ref: 'Song' },
+        timestamp: Date
+    }]
 });
 
 // Middleware para generar el _id del usuario
@@ -128,7 +92,7 @@ userSchema.pre('save', async function(next) {
 
 const User = mongoose.model('User', userSchema);
 
-// Esquema de Álbumes (mantiene tu esquema original)
+// Esquema de Álbumes
 const albumSchema = new mongoose.Schema({
     _id: { type: String },
     title: { type: String, required: true },
@@ -137,7 +101,6 @@ const albumSchema = new mongoose.Schema({
     image: { type: String, required: true }
 });
 
-// Tu middleware existente para el _id del álbum
 albumSchema.pre('save', function (next) {
     const artistInitials = this.artist
         .split(' ')
@@ -159,16 +122,17 @@ albumSchema.pre('save', function (next) {
 
 const Album = mongoose.model('Album', albumSchema);
 
-// Esquema de Canciones (mantiene tu esquema original)
+// Esquema de Canciones
 const songSchema = new mongoose.Schema({
     _id: { type: String },
     title: { type: String, required: true },
     album: { type: String, ref: 'Album', required: true },
     duration: { type: String },
-    music: { type: String, required: true }
+    music: { type: String, required: true },
+    plays: { type: Number, default: 0 },
+    likes: [{ type: String, ref: 'User' }]
 });
 
-// Tu middleware existente para el _id de la canción
 songSchema.pre('save', async function (next) {
     try {
         const album = await Album.findById(this.album);
@@ -213,7 +177,7 @@ const Song = mongoose.model('Song', songSchema);
 const auth = async (req, res, next) => {
     try {
         const token = req.header('Authorization').replace('Bearer ', '');
-        const decoded = jwt.verify(token, 'musicartistsecret'); // En producción, usar variable de entorno
+        const decoded = jwt.verify(token, 'musicartistsecret');
         const user = await User.findById(decoded.id);
 
         if (!user) {
@@ -233,7 +197,7 @@ app.get('/', (req, res) => {
     res.send('Bienvenido a MusicArtist API');
 });
 
-// Endpoints de usuarios
+// Endpoints de autenticación
 app.post('/register', async (req, res) => {
     try {
         const { username, email, password, isArtist } = req.body;
@@ -264,7 +228,7 @@ app.post('/login', async (req, res) => {
     }
 });
 
-// Tus endpoints existentes de canciones y álbumes
+// Endpoints de canciones y álbumes
 app.get('/songs', async (req, res) => {
     try {
         const songs = await Song.find().populate('album');
@@ -296,24 +260,12 @@ app.post('/albums', auth, async (req, res) => {
     }
 });
 
-// Nuevo endpoint para subir canciones con archivos
-app.post('/songs/upload', auth, upload.fields([
-    { name: 'music', maxCount: 1 },
-    { name: 'image', maxCount: 1 }
-]), async (req, res) => {
+app.post('/songs', auth, async (req, res) => {
     try {
         if (!req.user.isArtist) {
-            return res.status(403).json({ error: 'Solo los artistas pueden subir canciones' });
+            return res.status(403).json({ error: 'Solo los artistas pueden agregar canciones' });
         }
-
-        const { title, album, duration } = req.body;
-        const newSong = new Song({
-            title,
-            album,
-            duration,
-            music: `/uploads/music/${req.files.music[0].filename}`
-        });
-
+        const newSong = new Song(req.body);
         await newSong.save();
         res.status(201).json(newSong);
     } catch (error) {
@@ -321,33 +273,120 @@ app.post('/songs/upload', auth, upload.fields([
     }
 });
 
-// Endpoint para crear playlist
-app.post('/playlist', auth, async (req, res) => {
+// Sistema de recomendaciones
+app.get('/recommendations', auth, async (req, res) => {
     try {
-        const { name, songs } = req.body;
-        const user = await User.findById(req.user._id);
-        user.playlists.push({ name, songs });
-        await user.save();
-        res.status(201).json(user.playlists[user.playlists.length - 1]);
+        const userPlaylists = req.user.playlists;
+        const songIds = userPlaylists.flatMap(playlist => playlist.songs);
+        const userSongs = await Song.find({ _id: { $in: songIds } }).populate('album');
+        
+        const genreCounts = {};
+        userSongs.forEach(song => {
+            if (song.album && song.album.genre) {
+                genreCounts[song.album.genre] = (genreCounts[song.album.genre] || 0) + 1;
+            }
+        });
+
+        const topGenres = Object.entries(genreCounts)
+            .sort(([,a], [,b]) => b - a)
+            .slice(0, 3)
+            .map(([genre]) => genre);
+
+        const recommendations = await Song.find({
+            '_id': { $nin: songIds }
+        })
+        .populate({
+            path: 'album',
+            match: { genre: { $in: topGenres } }
+        })
+        .limit(10);
+
+        const filteredRecommendations = recommendations.filter(song => song.album);
+        res.json(filteredRecommendations);
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        res.status(500).json({ error: error.message });
     }
 });
 
-// Endpoint para agregar canción a playlist
-app.post('/playlist/:playlistId/song', auth, async (req, res) => {
+// Sistema de likes
+app.post('/songs/:songId/like', auth, async (req, res) => {
     try {
+        const song = await Song.findById(req.params.songId);
+        if (!song) {
+            return res.status(404).json({ error: 'Canción no encontrada' });
+        }
+
+        const userIndex = song.likes.indexOf(req.user._id);
+        if (userIndex === -1) {
+            song.likes.push(req.user._id);
+        } else {
+            song.likes.splice(userIndex, 1);
+        }
+
+        await song.save();
+        res.json({ 
+            likes: song.likes.length, 
+            isLiked: userIndex === -1 
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Historial de reproducción
+app.post('/songs/:songId/play', auth, async (req, res) => {
+    try {
+        const song = await Song.findById(req.params.songId);
+        if (!song) {
+            return res.status(404).json({ error: 'Canción no encontrada' });
+        }
+
+        song.plays = (song.plays || 0) + 1;
+        await song.save();
+
         const user = await User.findById(req.user._id);
-        const playlist = user.playlists.id(req.params.playlistId);
+        user.playHistory = user.playHistory || [];
+        user.playHistory.unshift({
+            song: song._id,
+            timestamp: new Date()
+        });
+
+        if (user.playHistory.length > 50) {
+            user.playHistory = user.playHistory.slice(0, 50);
+        }
+
+        await user.save();
+        res.json({ plays: song.plays });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Compartir playlist
+app.post('/playlist/:playlistId/share', auth, async (req, res) => {
+    try {
+        const { userId } = req.body;
+        const sourceUser = await User.findById(req.user._id);
+        const targetUser = await User.findById(userId);
+        
+        if (!targetUser) {
+            return res.status(404).json({ error: 'Usuario no encontrado' });
+        }
+
+        const playlist = sourceUser.playlists.id(req.params.playlistId);
         if (!playlist) {
             return res.status(404).json({ error: 'Playlist no encontrada' });
         }
-        
-        playlist.songs.push(req.body.songId);
-        await user.save();
-        res.json(playlist);
+
+        targetUser.playlists.push({
+            name: `${playlist.name} (compartida por ${sourceUser.username})`,
+            songs: playlist.songs
+        });
+
+        await targetUser.save();
+        res.json({ message: 'Playlist compartida exitosamente' });
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        res.status(500).json({ error: error.message });
     }
 });
 

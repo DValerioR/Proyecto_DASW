@@ -85,17 +85,11 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="genreDropdown" role="button"
-                            data-bs-toggle="dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="genreDropdown" role="button" data-bs-toggle="dropdown">
                             Géneros
                         </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="rock.html">Rock</a></li>
-                            <li><a class="dropdown-item" href="Pop.html">Pop</a></li>
-                            <li><a class="dropdown-item" href="Hip-hop.html">Hip-Hop</a></li>
-                            <li><a class="dropdown-item" href="Electronica.html">Electrónica</a></li>
-                            <li><a class="dropdown-item" href="Jazz.html">Jazz</a></li>
-                            <li><a class="dropdown-item" href="Reggaeton.html">Reggaeton</a></li>
+                        <ul class="dropdown-menu" id="genreList">
+                            <!-- Contenido dinámico -->
                         </ul>
                     </li>
                     <li class="nav-item">
@@ -106,7 +100,6 @@
                     <button type="button" class="btn btn-default text-white" data-bs-toggle="modal" data-bs-target="#modalId">
                         <i class="fa-light fa-comment nav-link">Sobre Nosotros...</i>
                     </button>
-                
                     <div class="modal fade" id="modalId" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="Login" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
                             <div class="modal-content bg-dark text-white">
@@ -136,141 +129,128 @@
                             </div>
                         </div>
                     </div>
+                    <ul class="navbar-nav" id="artistControls">
+                        <!-- Botones dinámicos para artistas -->
+                    </ul>
                 </ul>
-                
                 <ul class="navbar-nav">
-                    <button type="button" class="btn btn-default" data-bs-toggle="modal" data-bs-target="#modalId">
+                    <button type="button" class="btn btn-default">
                         <a class="fa-regular fa-user nav-link" href="login.html"></a>
                     </button>
                 </ul>
-
             </div>
         </div>
     </nav>
-
     <div class="profile-header">
         <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-3 text-center">
-                    <img src="/Proyecto_DASW/images/user_avatar.jpg" alt="Foto de perfil" class="profile-picture mb-3">
-                </div>
-                <div class="col-md-9">
-                    <h1 class="display-4 mb-0">Usuario123</h1>
-                    <p class="lead mb-4">Amante de la música • Coleccionista de vinilos • Rock & Jazz enthusiast</p>
-                    <div class="row mb-4">
-                        <div class="col-md-3">
-                            <div class="stats-card">
-                                <div class="stats-number">156</div>
-                                <div class="stats-label">Playlists</div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="stats-card">
-                                <div class="stats-number">2.5K</div>
-                                <div class="stats-label">Seguidores</div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="stats-card">
-                                <div class="stats-number">1.8K</div>
-                                <div class="stats-label">Siguiendo</div>
-                            </div>
-                        </div>
-                    </div>
-                    <button class="edit-profile-btn">Editar Perfil</button>
-                </div>
+            <div class="row align-items-center" id="profileData">
+                <!-- Los datos del usuario se cargarán dinámicamente aquí -->
             </div>
         </div>
     </div>
 
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-6 mb-5">
-                <h2 class="section-title">Artistas Favoritos</h2>
-                <div class="row">
-                    <div class="col-6 col-md-4 mb-4">
-                        <div class="favorite-item text-center">
-                            <img src="/Proyecto_DASW/images/Foo_fighters.jpeg" alt="Foo Fighters" class="mb-2">
-                            <h5 class="mb-1">Foo Fighters</h5>
-                            <small class="text-secondary">Rock</small>
-                        </div>
-                    </div>
-                    <div class="col-6 col-md-4 mb-4">
-                        <div class="favorite-item text-center">
-                            <img src="/Proyecto_DASW/images/Taylor_Swift.jpg" alt="Taylor Swift" class="mb-2">
-                            <h5 class="mb-1">Taylor Swift</h5>
-                            <small class="text-secondary">Pop</small>
-                        </div>
-                    </div>
-                    <div class="col-6 col-md-4 mb-4">
-                        <div class="favorite-item text-center">
-                            <img src="/Proyecto_DASW/images/Kendrick_Lamar.jpg" alt="Kendrick Lamar" class="mb-2">
-                            <h5 class="mb-1">Kendrick Lamar</h5>
-                            <small class="text-secondary">Hip-Hop</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 mb-5">
-                <h2 class="section-title">Playlists Favoritas</h2>
-                <div class="row">
-                    <div class="col-6 col-md-4 mb-4">
-                        <div class="favorite-item text-center">
-                            <img src="/Proyecto_DASW/images/playlist_rock.jpg" alt="Rock Classics" class="mb-2">
-                            <h5 class="mb-1">Rock Classics</h5>
-                            <small class="text-secondary">15 canciones</small>
-                        </div>
-                    </div>
-                    <div class="col-6 col-md-4 mb-4">
-                        <div class="favorite-item text-center">
-                            <img src="/Proyecto_DASW/images/playlist_pop.jpg" alt="Pop Hits" class="mb-2">
-                            <h5 class="mb-1">Pop Hits 2024</h5>
-                            <small class="text-secondary">23 canciones</small>
-                        </div>
-                    </div>
-                    <div class="col-6 col-md-4 mb-4">
-                        <div class="favorite-item text-center">
-                            <img src="/Proyecto_DASW/images/playlist_hiphop.jpg" alt="Hip-Hop Mix" class="mb-2">
-                            <h5 class="mb-1">Hip-Hop Mix</h5>
-                            <small class="text-secondary">18 canciones</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-12">
-                <h2 class="section-title">Actividad Reciente</h2>
-                <div class="recent-songs">
-                    <div class="song-item">
-                        <img src="/Proyecto_DASW/images/Bohemian_Rhapsody.jpg" alt="Bohemian Rhapsody">
-                        <div>
-                            <h6>Bohemian Rhapsody</h6>
-                            <small>Queen</small>
-                            <span class="text-secondary">• Hace 2 horas</span>
-                        </div>
-                    </div>
-                    <div class="song-item">
-                        <img src="/Proyecto_DASW/images/Anti_Hero.jpg" alt="Anti-Hero">
-                        <div>
-                            <h6>Anti-Hero</h6>
-                            <small>Taylor Swift</small>
-                            <span class="text-secondary">• Hace 5 horas</span>
-                        </div>
-                    </div>
-                    <div class="song-item">
-                        <img src="/Proyecto_DASW/images/Humble.jpg" alt="HUMBLE.">
-                        <div>
-                            <h6>HUMBLE.</h6>
-                            <small>Kendrick Lamar</small>
-                            <span class="text-secondary">• Hace 1 día</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="container mt-5" id="dynamicContent">
+        <!-- Secciones de favoritos, playlists y actividad reciente se cargarán aquí -->
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        async function loadUserProfile() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert("Por favor, inicia sesión primero.");
+                window.location.href = 'login.html';
+                return;
+            }
+
+            try {
+                const response = await fetch('http://localhost:3000/profile', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const user = await response.json();
+                    const profileData = document.getElementById('profileData');
+                    const dynamicContent = document.getElementById('dynamicContent');
+
+                    // Actualiza los datos del perfil
+                    profileData.innerHTML = `
+                        <div class="col-md-3 text-center">
+                            <img src="${user.profilePicture || '/images/default-avatar.jpg'}" alt="Foto de perfil" class="profile-picture mb-3">
+                        </div>
+                        <div class="col-md-9">
+                            <h1 class="display-4 mb-0">${user.username}</h1>
+                            <p class="lead mb-4">${user.bio || 'Amante de la música'}</p>
+                            <div class="row mb-4">
+                                <div class="col-md-3">
+                                    <div class="stats-card">
+                                        <div class="stats-number">${user.playlists.length}</div>
+                                        <div class="stats-label">Playlists</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="stats-card">
+                                        <div class="stats-number">${user.followers.length}</div>
+                                        <div class="stats-label">Seguidores</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="stats-card">
+                                        <div class="stats-number">${user.following.length}</div>
+                                        <div class="stats-label">Siguiendo</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="edit-profile-btn">Editar Perfil</button>
+                        </div>
+                    `;
+
+                    // Carga contenido dinámico
+                    dynamicContent.innerHTML = `
+                        <div class="row">
+                            <div class="col-md-6 mb-5">
+                                <h2 class="section-title">Artistas Favoritos</h2>
+                                <div class="row">
+                                    ${user.favorites.map(artist => `
+                                        <div class="col-6 col-md-4 mb-4">
+                                            <div class="favorite-item text-center">
+                                                <img src="${artist.image}" alt="${artist.name}" class="mb-2">
+                                                <h5 class="mb-1">${artist.name}</h5>
+                                                <small class="text-secondary">${artist.genre}</small>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-5">
+                                <h2 class="section-title">Playlists Favoritas</h2>
+                                <div class="row">
+                                    ${user.playlists.map(playlist => `
+                                        <div class="col-6 col-md-4 mb-4">
+                                            <div class="favorite-item text-center">
+                                                <img src="${playlist.image}" alt="${playlist.name}" class="mb-2">
+                                                <h5 class="mb-1">${playlist.name}</h5>
+                                                <small class="text-secondary">${playlist.songs.length} canciones</small>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    alert('Error al cargar el perfil');
+                }
+            } catch (error) {
+                console.error('Error al cargar los datos del perfil:', error);
+                alert('Ocurrió un error al conectar con el servidor.');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadUserProfile);
+    </script>
 </body>
 </html>

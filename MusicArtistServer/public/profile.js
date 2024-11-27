@@ -153,4 +153,75 @@ const UserProfile = ({ user }) => {
   return isArtist ? <ArtistProfile /> : <RegularUserProfile />;
 };
 
+document.addEventListener('DOMContentLoaded', async () => {
+  const artistControls = document.getElementById('artistControls');
+  const token = localStorage.getItem('token');
+
+  if (token) {
+      try {
+          const response = await fetch('http://localhost:3000/profile', {
+              method: 'GET',
+              headers: {
+                  'Authorization': `Bearer ${token}`
+              }
+          });
+
+          if (response.ok) {
+              const user = await response.json();
+              if (user.isArtist) {
+                  const uploadButton = document.createElement('a');
+                  uploadButton.href = "upload.html";
+                  uploadButton.className = "nav-link";
+                  uploadButton.innerHTML = `
+                      <button type="button" class="btn btn-default text-white">
+                          <i class="fa-solid fa-upload nav-link"></i> Subir Canción
+                      </button>
+                  `;
+                  artistControls.appendChild(uploadButton);
+              }
+          } else {
+              console.error('Error al obtener el perfil:', await response.text());
+          }
+      } catch (error) {
+          console.error('Error en la solicitud:', error);
+      }
+  }
+});
+
+document.addEventListener('DOMContentLoaded', async () => {
+  const artistControls = document.getElementById('artistControls');
+  const token = localStorage.getItem('token');
+
+  if (token) {
+      try {
+          const response = await fetch('http://localhost:3000/profile', {
+              method: 'GET',
+              headers: {
+                  'Authorization': `Bearer ${token}`
+              }
+          });
+
+          if (response.ok) {
+              const user = await response.json();
+              if (user.isArtist) {
+                  const uploadButton = document.createElement('a');
+                  uploadButton.href = "upload.html";
+                  uploadButton.className = "nav-link";
+                  uploadButton.innerHTML = `
+                      <button type="button" class="btn btn-default text-white">
+                          <i class="fa-solid fa-upload nav-link"></i> Subir Canción
+                      </button>
+                  `;
+                  artistControls.appendChild(uploadButton);
+              }
+          } else {
+              console.error('Error al obtener el perfil:', await response.text());
+          }
+      } catch (error) {
+          console.error('Error en la solicitud:', error);
+      }
+  }
+});
+
+
 export default UserProfile;

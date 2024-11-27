@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MusicArtist - Mi Perfil</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/7dab2dd0ff.js" crossorigin="anonymous"></script>
+
+    <style>
+        .profile-header {
+            background: linear-gradient(to bottom, rgba(29, 185, 84, 0.8), var(--dark-bg));
+            padding: 3rem 2rem;
+            color: white;
+        }
+
+        .profile-picture {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid white;
+            box-shadow: 0 4px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .stats-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .stats-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .favorite-item {
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .favorite-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .favorite-item img {
+            border-radius: 10px;
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+        }
+
+        .edit-profile-btn {
+            background-color: transparent;
+            border: 2px solid white;
+            color: white;
+            padding: 0.5rem 2rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .edit-profile-btn:hover {
+            background-color: white;
+            color: black;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">MusicArtist</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="genreDropdown" role="button"
+                            data-bs-toggle="dropdown">
+                            Géneros
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="rock.html">Rock</a></li>
+                            <li><a class="dropdown-item" href="Pop.html">Pop</a></li>
+                            <li><a class="dropdown-item" href="Hip-hop.html">Hip-Hop</a></li>
+                            <li><a class="dropdown-item" href="Electronica.html">Electrónica</a></li>
+                            <li><a class="dropdown-item" href="Jazz.html">Jazz</a></li>
+                            <li><a class="dropdown-item" href="Reggaeton.html">Reggaeton</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="playlist.html">Mis Playlist</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <button type="button" class="btn btn-default text-white" data-bs-toggle="modal" data-bs-target="#modalId">
+                        <i class="fa-light fa-comment nav-link">Sobre Nosotros...</i>
+                    </button>
+                
+                    <div class="modal fade" id="modalId" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="Login" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
+                            <div class="modal-content bg-dark text-white">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="Login">Sobre nosotros...</h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>
+                                        En MusicArtist, nos apasiona conectar a las personas con la música que aman.
+                                        Nuestra app está diseñada para ofrecerte un mundo de canciones, podcasts y
+                                        playlists, todo adaptado a tus gustos únicos. Ya sea descubriendo nuevos
+                                        artistas, explorando clásicos atemporales o creando la banda sonora perfecta
+                                        para tu día, MusicArtist está aquí para darle ritmo a cada momento.
+                                    </p>
+                                    <p>
+                                        Con un diseño intuitivo, recomendaciones inteligentes y la libertad de escuchar
+                                        donde quieras, trabajamos para que tu experiencia musical sea fluida y
+                                        placentera. Únete a una comunidad global de amantes de la música y deja que el
+                                        ritmo te guíe.
+                                    </p>
+                                    <p><strong>MusicArtist - Tu música, tu ritmo.</strong></p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ul>
+                
+                <ul class="navbar-nav">
+                    <button type="button" class="btn btn-default" data-bs-toggle="modal" data-bs-target="#modalId">
+                        <a class="fa-regular fa-user nav-link" href="login.html"></a>
+                    </button>
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+
+    <div class="profile-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-3 text-center">
+                    <img src="/Proyecto_DASW/images/user_avatar.jpg" alt="Foto de perfil" class="profile-picture mb-3">
+                </div>
+                <div class="col-md-9">
+                    <h1 class="display-4 mb-0">Usuario123</h1>
+                    <p class="lead mb-4">Amante de la música • Coleccionista de vinilos • Rock & Jazz enthusiast</p>
+                    <div class="row mb-4">
+                        <div class="col-md-3">
+                            <div class="stats-card">
+                                <div class="stats-number">156</div>
+                                <div class="stats-label">Playlists</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stats-card">
+                                <div class="stats-number">2.5K</div>
+                                <div class="stats-label">Seguidores</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stats-card">
+                                <div class="stats-number">1.8K</div>
+                                <div class="stats-label">Siguiendo</div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="edit-profile-btn">Editar Perfil</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6 mb-5">
+                <h2 class="section-title">Artistas Favoritos</h2>
+                <div class="row">
+                    <div class="col-6 col-md-4 mb-4">
+                        <div class="favorite-item text-center">
+                            <img src="/Proyecto_DASW/images/Foo_fighters.jpeg" alt="Foo Fighters" class="mb-2">
+                            <h5 class="mb-1">Foo Fighters</h5>
+                            <small class="text-secondary">Rock</small>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4 mb-4">
+                        <div class="favorite-item text-center">
+                            <img src="/Proyecto_DASW/images/Taylor_Swift.jpg" alt="Taylor Swift" class="mb-2">
+                            <h5 class="mb-1">Taylor Swift</h5>
+                            <small class="text-secondary">Pop</small>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4 mb-4">
+                        <div class="favorite-item text-center">
+                            <img src="/Proyecto_DASW/images/Kendrick_Lamar.jpg" alt="Kendrick Lamar" class="mb-2">
+                            <h5 class="mb-1">Kendrick Lamar</h5>
+                            <small class="text-secondary">Hip-Hop</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-5">
+                <h2 class="section-title">Playlists Favoritas</h2>
+                <div class="row">
+                    <div class="col-6 col-md-4 mb-4">
+                        <div class="favorite-item text-center">
+                            <img src="/Proyecto_DASW/images/playlist_rock.jpg" alt="Rock Classics" class="mb-2">
+                            <h5 class="mb-1">Rock Classics</h5>
+                            <small class="text-secondary">15 canciones</small>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4 mb-4">
+                        <div class="favorite-item text-center">
+                            <img src="/Proyecto_DASW/images/playlist_pop.jpg" alt="Pop Hits" class="mb-2">
+                            <h5 class="mb-1">Pop Hits 2024</h5>
+                            <small class="text-secondary">23 canciones</small>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4 mb-4">
+                        <div class="favorite-item text-center">
+                            <img src="/Proyecto_DASW/images/playlist_hiphop.jpg" alt="Hip-Hop Mix" class="mb-2">
+                            <h5 class="mb-1">Hip-Hop Mix</h5>
+                            <small class="text-secondary">18 canciones</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <h2 class="section-title">Actividad Reciente</h2>
+                <div class="recent-songs">
+                    <div class="song-item">
+                        <img src="/Proyecto_DASW/images/Bohemian_Rhapsody.jpg" alt="Bohemian Rhapsody">
+                        <div>
+                            <h6>Bohemian Rhapsody</h6>
+                            <small>Queen</small>
+                            <span class="text-secondary">• Hace 2 horas</span>
+                        </div>
+                    </div>
+                    <div class="song-item">
+                        <img src="/Proyecto_DASW/images/Anti_Hero.jpg" alt="Anti-Hero">
+                        <div>
+                            <h6>Anti-Hero</h6>
+                            <small>Taylor Swift</small>
+                            <span class="text-secondary">• Hace 5 horas</span>
+                        </div>
+                    </div>
+                    <div class="song-item">
+                        <img src="/Proyecto_DASW/images/Humble.jpg" alt="HUMBLE.">
+                        <div>
+                            <h6>HUMBLE.</h6>
+                            <small>Kendrick Lamar</small>
+                            <span class="text-secondary">• Hace 1 día</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

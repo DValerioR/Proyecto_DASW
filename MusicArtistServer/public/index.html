@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MusicArtist</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/7dab2dd0ff.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">MusicArtist</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="genreDropdown" role="button" data-bs-toggle="dropdown">
+                            Géneros
+                        </a>
+                        <ul class="dropdown-menu" id="genreList">
+                            <!-- Contenido dinámico -->
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="playlist.html">Mis Playlist</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <button type="button" class="btn btn-default text-white" data-bs-toggle="modal" data-bs-target="#modalId">
+                        <i class="fa-light fa-comment nav-link">Sobre Nosotros...</i>
+                    </button>
+                    <div class="modal fade" id="modalId" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="Login" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
+                            <div class="modal-content bg-dark text-white">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="Login">Sobre nosotros...</h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>
+                                        En MusicArtist, nos apasiona conectar a las personas con la música que aman.
+                                        Nuestra app está diseñada para ofrecerte un mundo de canciones, podcasts y
+                                        playlists, todo adaptado a tus gustos únicos. Ya sea descubriendo nuevos
+                                        artistas, explorando clásicos atemporales o creando la banda sonora perfecta
+                                        para tu día, MusicArtist está aquí para darle ritmo a cada momento.
+                                    </p>
+                                    <p>
+                                        Con un diseño intuitivo, recomendaciones inteligentes y la libertad de escuchar
+                                        donde quieras, trabajamos para que tu experiencia musical sea fluida y
+                                        placentera. Únete a una comunidad global de amantes de la música y deja que el
+                                        ritmo te guíe.
+                                    </p>
+                                    <p><strong>MusicArtist - Tu música, tu ritmo.</strong></p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ul>
+                <ul class="navbar-nav">
+                    <button type="button" class="btn btn-default">
+                        <a class="fa-regular fa-user nav-link" href="login.html"></a>
+                    </button>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h1 id="pageTitle">Página Principal</h1>
+
+        <div id="mainCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
+            <div class="carousel-inner" id="carouselContent">
+                <!-- Contenido dinámico -->
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+
+        <h2 id="artistTitle">Generos Destacados</h2>
+        <div class="row" id="artistSection">
+            <!-- Contenido dinámico -->
+        </div>
+
+        <h2 id="songTitle" class="mt-4">Canciones Destacadas</h2>
+        <div class="row" id="songSection">
+            <!-- Contenido dinámico -->
+        </div>
+    </div>
+
+    <nav class="mt-4">
+        <ul class="pagination justify-content-center">
+            <li class="page-item">
+                <button id="prevPage" class="page-link">Anterior</button>
+            </li>
+            <li class="page-item">
+                <button id="nextPage" class="page-link">Siguiente</button>
+            </li>
+        </ul>
+    </nav>
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="index.js"></script>
+</body>
+</html>

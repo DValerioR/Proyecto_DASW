@@ -1,0 +1,268 @@
+:root {
+    --primary-color: #1DB954;
+    --dark-bg: #121212;
+    --card-bg: #181818;
+    --text-primary: #FFFFFF;
+    --text-secondary: #B3B3B3;
+}
+
+body {
+    background-color: var(--dark-bg);
+    color: var(--text-primary);
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Navbar Styles */
+.navbar {
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 1rem;
+}
+
+.navbar-brand {
+    color: var(--primary-color) !important;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.nav-link {
+    color: var(--text-primary) !important;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: var(--primary-color) !important;
+}
+
+/* Dropdown Styles */
+.dropdown-menu {
+    background-color: var(--card-bg);
+    border: none;
+}
+
+.dropdown-item {
+    color: var(--text-primary);
+}
+
+.dropdown-item:hover {
+    background-color: var(--primary-color);
+    color: var(--text-primary);
+}
+
+/* Carousel Styles */
+.carousel {
+    margin-bottom: 2rem;
+}
+
+.carousel-item img {
+    height: 400px;
+    object-fit: cover;
+    filter: brightness(0.7);
+}
+
+.carousel-caption {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 1rem;
+    border-radius: 10px;
+}
+
+/* Card Styles */
+.card {
+    background-color: var(--card-bg);
+    border: none;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.card img {
+    height: 300px;
+    object-fit: cover;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border: none;
+    padding: 0.5rem 2rem;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #1ed760;
+    transform: scale(1.05);
+}
+
+/* Recent Songs Styles */
+.recent-songs {
+    background-color: var(--card-bg);
+    padding: 1rem;
+    border-radius: 10px;
+}
+
+.song-item {
+    display: flex;
+    align-items: center;
+    padding: 0.8rem;
+    transition: background-color 0.3s ease;
+    border-radius: 5px;
+    margin-bottom: 0.5rem;
+}
+
+.song-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+}
+
+.song-item img {
+    width: 50px;
+    height: 50px;
+    margin-right: 1rem;
+    border-radius: 5px;
+}
+
+.song-item .play-icon {
+    color: var(--primary-color);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.song-item:hover .play-icon {
+    opacity: 1;
+}
+
+/* Login/Register Styles */
+.login-bg {
+    background: linear-gradient(135deg, #1DB954 0%, #191414 100%);
+    min-height: 100vh;
+}
+
+.login-container {
+    background-color: rgba(24, 24, 24, 0.9);
+    padding: 2.5rem;
+    border-radius: 15px;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.music-icon {
+    font-size: 3rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.brand-text {
+    color: var(--primary-color);
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+}
+
+.form-control {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+    padding: 0.8rem;
+    height: 3rem;
+}
+
+.form-control:focus {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-color: var(--primary-color);
+    color: var(--text-primary);
+    box-shadow: none;
+}
+
+.input-group-text {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.form-control::placeholder {
+    color: var(--text-secondary);
+}
+
+/* Links en formularios */
+.login-container a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.login-container a:hover {
+    color: #1ed760;
+    text-decoration: underline;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.login-container {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .login-container {
+        padding: 1.5rem;
+    }
+
+    .music-icon {
+        font-size: 2.5rem;
+    }
+
+    .brand-text {
+        font-size: 1.8rem;
+    }
+
+    .carousel-item img {
+        height: 300px;
+    }
+
+    .card img {
+        height: 250px;
+    }
+    
+    .song-item {
+        padding: 0.5rem;
+    }
+}
+
+/* Accesibilidad */
+*:focus {
+    outline: none !important;
+    box-shadow: 0 0 0 2px var(--primary-color) !important;
+}
+
+/* Scrollbar personalizada */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--dark-bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--card-bg);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-color);
+}

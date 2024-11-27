@@ -176,6 +176,19 @@ async function loadSongs(genre = null) {
                     </div>
                     <button class="btn btn-primary ms-auto">Agregar</button>
                 </div>
+                <div class="song-actions">
+                    <button class="btn btn-link like-btn ${song.likes.includes(userId) ? 'liked' : ''}" 
+                            onclick="handleLike('${song._id}')">
+                        <i class="fas fa-heart"></i>
+                        <span class="likes-count">${song.likes.length}</span>
+                    </button>
+                    <button class="btn btn-link" onclick="handleAddToPlaylist('${song._id}')">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <button class="btn btn-link" onclick="playSong('${song._id}')">
+                        <i class="fas fa-play"></i>
+                    </button>
+                </div>
             `;
         });
     } catch (error) {

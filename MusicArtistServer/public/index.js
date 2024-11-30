@@ -153,41 +153,35 @@ function updateSongTitle(genre) {
 async function loadSongs(genre = null) {
     try {
         const response = genre
-            ? await fetch(`${API_SONGS}?genre=${genre}`) // Filtrar por género
-            : await fetch(API_SONGS); // Obtener todas las canciones
+            ? await fetch(`${API_SONGS}?genre=${genre}`)
+            : await fetch(API_SONGS);
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
 
         const songs = await response.json();
-        songSection.innerHTML = ""; // Limpia la sección
+        songSection.innerHTML = "";
 
         if (songs.length === 0) {
-            songSection.innerHTML = `<p class="text-center text-muted">No se encontraron canciones.</p>`;
+            songSection.innerHTML = `<p class="text-center text-muted">No se encontraron canciones para este género.</p>`;
             return;
         }
 
         songs.slice(0, 3).forEach(song => {
+            const albumImage = song.album?.image || '/images/default.jpg';
+            const albumArtist = song.album?.artist || 'Artista desconocido';
+
             songSection.innerHTML += `
                 <div class="song-item d-flex align-items-center mb-3">
-                    <img src="${song.album.image}" alt="${song.title}" class="me-3" 
+                    <img src="${albumImage}" alt="${song.title}" class="me-3"
                         style="width: 80px; height: 80px; object-fit: cover; border-radius: 5px;">
                     <div>
                         <h6 class="mb-0">${song.title}</h6>
-                        <small>${song.album.artist}</small><br>
+                        <small>${albumArtist}</small><br>
                         <span class="small text-muted">Duración: ${song.duration || "N/A"}</span>
                     </div>
                     <button class="btn btn-primary ms-auto">Agregar</button>
-                </div>
-                <div class="song-actions">
-                    <button class="btn btn-link like-btn ${song.likes.includes(userId) ? 'liked' : ''}" 
-                            onclick="handleLike('${song._id}')">
-                        <i class="fas fa-heart"></i>
-                        <span class="likes-count">${song.likes.length}</span>
-                    </button>
-                    <button class="btn btn-link" onclick="handleAddToPlaylist('${song._id}')">
-                        <i class="fas fa-plus"></i>
-                    </button>
-                    <button class="btn btn-link" onclick="playSong('${song._id}')">
-                        <i class="fas fa-play"></i>
-                    </button>
                 </div>
             `;
         });
@@ -196,6 +190,7 @@ async function loadSongs(genre = null) {
         songSection.innerHTML = `<p class="text-center text-danger">Ocurrió un error al cargar las canciones.</p>`;
     }
 }
+
 
 
 

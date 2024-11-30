@@ -212,7 +212,7 @@ async function loadPage(genre = null) {
     await loadCarousel(genre); // Carrusel
     await loadSongs(genre); // Canciones
 }
-
+// Colocar boton de subir cancion para artistas
 document.addEventListener('DOMContentLoaded', async () => {
     const artistControls = document.getElementById('artistControls');
     const token = localStorage.getItem('token');
@@ -245,6 +245,45 @@ document.addEventListener('DOMContentLoaded', async () => {
         } catch (error) {
             console.error('Error en la solicitud:', error);
         }
+    }
+});
+
+// Boton de cerrar sesion
+document.addEventListener('DOMContentLoaded', () => {
+    const authButton = document.getElementById('authButton');
+    const token = localStorage.getItem('token');
+
+    if (token) {
+        // Usuario autenticado, mostrar botón de cerrar sesión
+        authButton.innerHTML = `
+            <ul class="navbar-nav" id="authButton">
+                <li class="nav-item" >
+                    <button class="btn btn-default">
+                        <a class="fa-regular fa-user nav-link" href="perfil.html"></a>
+                    </button>
+                </li>
+            </ul> 
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <button class="btn btn-danger" id="logoutButton">
+                        <i class="fa-solid fa-sign-out-alt"></i> Cerrar Sesión
+                    </button>
+                </li>
+            </ul>
+        `;
+
+        document.getElementById('logoutButton').addEventListener('click', () => {
+            localStorage.removeItem('token'); // Eliminar el token
+            alert('Has cerrado sesión exitosamente.');
+            window.location.href = 'index.html'; // Redirigir a la página principal
+        });
+    } else {
+        // Usuario no autenticado, mostrar botón de login
+        authButton.innerHTML = `
+            <a class="btn btn-primary" href="login.html">
+                <i class="fa-solid fa-sign-in-alt"></i> Iniciar Sesión
+            </a>
+        `;
     }
 });
 

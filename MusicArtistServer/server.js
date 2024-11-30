@@ -118,7 +118,7 @@ const auth = async (req, res, next) => {
 };
 
 // Endpoints
-app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'public', 'index.html')));
+app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'public', 'login.html')));
 
 // Endpoint para obtener géneros
 app.get('/genres', async (req, res) => {

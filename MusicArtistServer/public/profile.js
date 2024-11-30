@@ -1,227 +1,86 @@
-import React from 'react';
-import { User, Music, PlayCircle, Heart, Users, Plus } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-
-const UserProfile = ({ user }) => {
-  const isArtist = user?.isArtist;
-
-  const ArtistProfile = () => (
-    <div className="container mt-8 mx-auto px-4">
-      <div className="flex flex-col md:flex-row gap-8">
-        <div className="md:w-1/4">
-          <Card>
-            <CardContent className="pt-6">
-              <div className="text-center">
-                <img src="/api/placeholder/150/150" alt="Artist" className="rounded-full mx-auto mb-4" />
-                <h2 className="text-2xl font-bold mb-2">{user?.username}</h2>
-                <p className="text-gray-400 mb-4">Artist</p>
-                <div className="flex justify-center gap-4 text-gray-400">
-                  <div className="text-center">
-                    <div className="font-bold">{user?.followers?.length || 0}</div>
-                    <div className="text-sm">Followers</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="font-bold">{user?.songs?.length || 0}</div>
-                    <div className="text-sm">Songs</div>
-                  </div>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MusicArtist - Perfil</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">MusicArtist</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="genreDropdown" role="button" data-bs-toggle="dropdown">
+                            Géneros
+                        </a>
+                        <ul class="dropdown-menu" id="genreList">
+                            <li><a class="dropdown-item" href="rock.html">Rock</a></li>
+                            <li><a class="dropdown-item" href="Pop.html">Pop</a></li>
+                            <li><a class="dropdown-item" href="Hip-hop.html">Hip-Hop</a></li>
+                            <li><a class="dropdown-item" href="Electronica.html">Electrónica</a></li>
+                            <li><a class="dropdown-item" href="Jazz.html">Jazz</a></li>
+                            <li><a class="dropdown-item" href="Reggaeton.html">Reggaeton</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="playlist.html">Mis Playlist</a>
+                    </li>
+                </ul>
+                <!-- Controles de artista -->
+                <div id="artistControls" class="d-flex align-items-center me-3">
+                    <!-- Se llenará dinámicamente si el usuario es artista -->
                 </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        <div className="md:w-3/4">
-          <div className="grid gap-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Music className="w-5 h-5" />
-                  Upload New Song
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <button className="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition">
-                  <Plus className="inline-block w-5 h-5 mr-2" />
-                  Upload Track
-                </button>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <PlayCircle className="w-5 h-5" />
-                  Your Tracks
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {[1, 2, 3].map((track) => (
-                    <div key={track} className="flex items-center gap-4 p-3 bg-gray-800 rounded-lg">
-                      <img src="/api/placeholder/48/48" alt="Track" className="rounded" />
-                      <div className="flex-1">
-                        <h4 className="font-medium">Track Name {track}</h4>
-                        <p className="text-sm text-gray-400">Album • Genre</p>
-                      </div>
-                      <div className="text-gray-400">3:45</div>
-                    </div>
-                  ))}
+                <!-- Botones de autenticación -->
+                <div id="authButton" class="d-flex align-items-center">
+                    <!-- Se llenará dinámicamente según el estado de autenticación -->
                 </div>
-              </CardContent>
-            </Card>
-          </div>
+            </div>
         </div>
-      </div>
+    </nav>
+
+    <!-- Contenido del Perfil -->
+    <div class="container">
+        <div id="profileContent" class="mt-5">
+            <!-- El contenido se cargará dinámicamente basado en el tipo de usuario -->
+        </div>
     </div>
-  );
 
-  const RegularUserProfile = () => (
-    <div className="container mt-8 mx-auto px-4">
-      <div className="flex flex-col md:flex-row gap-8">
-        <div className="md:w-1/4">
-          <Card>
-            <CardContent className="pt-6">
-              <div className="text-center">
-                <img src="/api/placeholder/150/150" alt="User" className="rounded-full mx-auto mb-4" />
-                <h2 className="text-2xl font-bold mb-2">{user?.username}</h2>
-                <p className="text-gray-400 mb-4">Music Enthusiast</p>
-                <div className="flex justify-center gap-4 text-gray-400">
-                  <div className="text-center">
-                    <div className="font-bold">{user?.playlists?.length || 0}</div>
-                    <div className="text-sm">Playlists</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="font-bold">{user?.following?.length || 0}</div>
-                    <div className="text-sm">Following</div>
-                  </div>
+    <!-- Modal "Sobre Nosotros" -->
+    <div class="modal fade" id="modalId" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+            <div class="modal-content bg-dark text-white">
+                <div class="modal-header">
+                    <h5 class="modal-title">Sobre nosotros...</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
+                <div class="modal-body">
+                    En MusicArtist, nos apasiona conectar a las personas con la música que aman. Nuestra app está diseñada para ofrecerte un mundo de canciones, podcasts y playlists, todo adaptado a tus gustos únicos. Ya sea descubriendo nuevos artistas, explorando clásicos atemporales o creando la banda sonora perfecta para tu día, MusicArtist está aquí para darle ritmo a cada momento.
+
+                    Con un diseño intuitivo, recomendaciones inteligentes y la libertad de escuchar donde quieras, trabajamos para que tu experiencia musical sea fluida y placentera. Únete a una comunidad global de amantes de la música y deja que el ritmo te guíe.
+
+                    <strong>MusicArtist - Tu música, tu ritmo.</strong>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
         </div>
-
-        <div className="md:w-3/4">
-          <div className="grid gap-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <PlayCircle className="w-5 h-5" />
-                  Your Playlists
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid md:grid-cols-3 gap-4">
-                  {[1, 2, 3].map((playlist) => (
-                    <div key={playlist} className="bg-gray-800 rounded-lg p-4">
-                      <img src="/api/placeholder/200/200" alt="Playlist" className="w-full rounded-lg mb-3" />
-                      <h4 className="font-medium">Playlist {playlist}</h4>
-                      <p className="text-sm text-gray-400">15 songs</p>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Heart className="w-5 h-5" />
-                  Liked Songs
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {[1, 2, 3].map((song) => (
-                    <div key={song} className="flex items-center gap-4 p-3 bg-gray-800 rounded-lg">
-                      <img src="/api/placeholder/48/48" alt="Song" className="rounded" />
-                      <div className="flex-1">
-                        <h4 className="font-medium">Liked Song {song}</h4>
-                        <p className="text-sm text-gray-400">Artist • Album</p>
-                      </div>
-                      <div className="text-gray-400">3:45</div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </div>
     </div>
-  );
 
-  return isArtist ? <ArtistProfile /> : <RegularUserProfile />;
-};
-
-document.addEventListener('DOMContentLoaded', async () => {
-  const artistControls = document.getElementById('artistControls');
-  const token = localStorage.getItem('token');
-
-  if (token) {
-      try {
-          const response = await fetch('http://localhost:3000/profile', {
-              method: 'GET',
-              headers: {
-                  'Authorization': `Bearer ${token}`
-              }
-          });
-
-          if (response.ok) {
-              const user = await response.json();
-              if (user.isArtist) {
-                  const uploadButton = document.createElement('a');
-                  uploadButton.href = "upload.html";
-                  uploadButton.className = "nav-link";
-                  uploadButton.innerHTML = `
-                      <button type="button" class="btn btn-default text-white">
-                          <i class="fa-solid fa-upload nav-link"></i> Subir Canción
-                      </button>
-                  `;
-                  artistControls.appendChild(uploadButton);
-              }
-          } else {
-              console.error('Error al obtener el perfil:', await response.text());
-          }
-      } catch (error) {
-          console.error('Error en la solicitud:', error);
-      }
-  }
-});
-
-document.addEventListener('DOMContentLoaded', async () => {
-  const artistControls = document.getElementById('artistControls');
-  const token = localStorage.getItem('token');
-
-  if (token) {
-      try {
-          const response = await fetch('http://localhost:3000/profile', {
-              method: 'GET',
-              headers: {
-                  'Authorization': `Bearer ${token}`
-              }
-          });
-
-          if (response.ok) {
-              const user = await response.json();
-              if (user.isArtist) {
-                  const uploadButton = document.createElement('a');
-                  uploadButton.href = "upload.html";
-                  uploadButton.className = "nav-link";
-                  uploadButton.innerHTML = `
-                      <button type="button" class="btn btn-default text-white">
-                          <i class="fa-solid fa-upload nav-link"></i> Subir Canción
-                      </button>
-                  `;
-                  artistControls.appendChild(uploadButton);
-              }
-          } else {
-              console.error('Error al obtener el perfil:', await response.text());
-          }
-      } catch (error) {
-          console.error('Error en la solicitud:', error);
-      }
-  }
-});
-
-
-export default UserProfile;
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="profile.js"></script>
+</body>
+</html>

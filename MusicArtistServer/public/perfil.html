@@ -3,79 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MusicArtist - Mi Perfil</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/7dab2dd0ff.js" crossorigin="anonymous"></script>
-
-    <style>
-        .profile-header {
-            background: linear-gradient(to bottom, rgba(29, 185, 84, 0.8), var(--dark-bg));
-            padding: 3rem 2rem;
-            color: white;
-        }
-
-        .profile-picture {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid white;
-            box-shadow: 0 4px 60px rgba(0, 0, 0, 0.5);
-        }
-
-        .stats-card {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 1rem;
-            text-align: center;
-        }
-
-        .stats-number {
-            font-size: 2rem;
-            font-weight: bold;
-            color: var(--primary-color);
-        }
-
-        .favorite-item {
-            transition: transform 0.3s ease;
-            cursor: pointer;
-        }
-
-        .favorite-item:hover {
-            transform: translateY(-5px);
-        }
-
-        .favorite-item img {
-            border-radius: 10px;
-            width: 100%;
-            aspect-ratio: 1;
-            object-fit: cover;
-        }
-
-        .edit-profile-btn {
-            background-color: transparent;
-            border: 2px solid white;
-            color: white;
-            padding: 0.5rem 2rem;
-            border-radius: 25px;
-            transition: all 0.3s ease;
-        }
-
-        .edit-profile-btn:hover {
-            background-color: white;
-            color: black;
-        }
-
-        .section-title {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin-bottom: 1.5rem;
-            color: white;
-        }
-    </style>
+    <title>MusicArtist - Perfil</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link href="styles.css" rel="stylesheet">
 </head>
 <body>
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="index.html">MusicArtist</a>
@@ -89,168 +26,61 @@
                             Géneros
                         </a>
                         <ul class="dropdown-menu" id="genreList">
-                            <!-- Contenido dinámico -->
+                            <li><a class="dropdown-item" href="rock.html">Rock</a></li>
+                            <li><a class="dropdown-item" href="Pop.html">Pop</a></li>
+                            <li><a class="dropdown-item" href="Hip-hop.html">Hip-Hop</a></li>
+                            <li><a class="dropdown-item" href="Electronica.html">Electrónica</a></li>
+                            <li><a class="dropdown-item" href="Jazz.html">Jazz</a></li>
+                            <li><a class="dropdown-item" href="Reggaeton.html">Reggaeton</a></li>
                         </ul>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="playlist.html">Mis Playlist</a>
                     </li>
                 </ul>
-                <ul class="navbar-nav">
-                    <button type="button" class="btn btn-default text-white" data-bs-toggle="modal" data-bs-target="#modalId">
-                        <i class="fa-light fa-comment nav-link">Sobre Nosotros...</i>
-                    </button>
-                    <div class="modal fade" id="modalId" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="Login" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
-                            <div class="modal-content bg-dark text-white">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="Login">Sobre nosotros...</h5>
-                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <p>
-                                        En MusicArtist, nos apasiona conectar a las personas con la música que aman.
-                                        Nuestra app está diseñada para ofrecerte un mundo de canciones, podcasts y
-                                        playlists, todo adaptado a tus gustos únicos. Ya sea descubriendo nuevos
-                                        artistas, explorando clásicos atemporales o creando la banda sonora perfecta
-                                        para tu día, MusicArtist está aquí para darle ritmo a cada momento.
-                                    </p>
-                                    <p>
-                                        Con un diseño intuitivo, recomendaciones inteligentes y la libertad de escuchar
-                                        donde quieras, trabajamos para que tu experiencia musical sea fluida y
-                                        placentera. Únete a una comunidad global de amantes de la música y deja que el
-                                        ritmo te guíe.
-                                    </p>
-                                    <p><strong>MusicArtist - Tu música, tu ritmo.</strong></p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <ul class="navbar-nav" id="artistControls">
-                        <!-- Botones dinámicos para artistas -->
-                    </ul>
-                </ul>
-                <ul class="navbar-nav">
-                    <button type="button" class="btn btn-default">
-                        <a class="fa-regular fa-user nav-link" href="login.html"></a>
-                    </button>
-                </ul>
+                <!-- Controles de artista -->
+                <div id="artistControls" class="d-flex align-items-center me-3">
+                    <!-- Se llenará dinámicamente si el usuario es artista -->
+                </div>
+                <!-- Botones de autenticación -->
+                <div id="authButton" class="d-flex align-items-center">
+                    <!-- Se llenará dinámicamente según el estado de autenticación -->
+                </div>
             </div>
         </div>
     </nav>
-    <div class="profile-header">
-        <div class="container">
-            <div class="row align-items-center" id="profileData">
-                <!-- Los datos del usuario se cargarán dinámicamente aquí -->
+
+    <!-- Contenido del Perfil -->
+    <div class="container">
+        <div id="profileContent" class="mt-5">
+            <!-- El contenido se cargará dinámicamente basado en el tipo de usuario -->
+        </div>
+    </div>
+
+    <!-- Modal "Sobre Nosotros" -->
+    <div class="modal fade" id="modalId" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+            <div class="modal-content bg-dark text-white">
+                <div class="modal-header">
+                    <h5 class="modal-title">Sobre nosotros...</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    En MusicArtist, nos apasiona conectar a las personas con la música que aman. Nuestra app está diseñada para ofrecerte un mundo de canciones, podcasts y playlists, todo adaptado a tus gustos únicos. Ya sea descubriendo nuevos artistas, explorando clásicos atemporales o creando la banda sonora perfecta para tu día, MusicArtist está aquí para darle ritmo a cada momento.
+
+                    Con un diseño intuitivo, recomendaciones inteligentes y la libertad de escuchar donde quieras, trabajamos para que tu experiencia musical sea fluida y placentera. Únete a una comunidad global de amantes de la música y deja que el ritmo te guíe.
+
+                    <strong>MusicArtist - Tu música, tu ritmo.</strong>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="container mt-5" id="dynamicContent">
-        <!-- Secciones de favoritos, playlists y actividad reciente se cargarán aquí -->
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        async function loadUserProfile() {
-            const token = localStorage.getItem('token');
-            if (!token) {
-                alert("Por favor, inicia sesión primero.");
-                window.location.href = 'login.html';
-                return;
-            }
-
-            try {
-                const response = await fetch('http://localhost:3000/profile', {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-
-                if (response.ok) {
-                    const user = await response.json();
-                    const profileData = document.getElementById('profileData');
-                    const dynamicContent = document.getElementById('dynamicContent');
-
-                    // Actualiza los datos del perfil
-                    profileData.innerHTML = `
-                        <div class="col-md-3 text-center">
-                            <img src="${user.profilePicture || '/images/default-avatar.jpg'}" alt="Foto de perfil" class="profile-picture mb-3">
-                        </div>
-                        <div class="col-md-9">
-                            <h1 class="display-4 mb-0">${user.username}</h1>
-                            <p class="lead mb-4">${user.bio || 'Amante de la música'}</p>
-                            <div class="row mb-4">
-                                <div class="col-md-3">
-                                    <div class="stats-card">
-                                        <div class="stats-number">${user.playlists.length}</div>
-                                        <div class="stats-label">Playlists</div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="stats-card">
-                                        <div class="stats-number">${user.followers.length}</div>
-                                        <div class="stats-label">Seguidores</div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="stats-card">
-                                        <div class="stats-number">${user.following.length}</div>
-                                        <div class="stats-label">Siguiendo</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <button class="edit-profile-btn">Editar Perfil</button>
-                        </div>
-                    `;
-
-                    // Carga contenido dinámico
-                    dynamicContent.innerHTML = `
-                        <div class="row">
-                            <div class="col-md-6 mb-5">
-                                <h2 class="section-title">Artistas Favoritos</h2>
-                                <div class="row">
-                                    ${user.favorites.map(artist => `
-                                        <div class="col-6 col-md-4 mb-4">
-                                            <div class="favorite-item text-center">
-                                                <img src="${artist.image}" alt="${artist.name}" class="mb-2">
-                                                <h5 class="mb-1">${artist.name}</h5>
-                                                <small class="text-secondary">${artist.genre}</small>
-                                            </div>
-                                        </div>
-                                    `).join('')}
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-5">
-                                <h2 class="section-title">Playlists Favoritas</h2>
-                                <div class="row">
-                                    ${user.playlists.map(playlist => `
-                                        <div class="col-6 col-md-4 mb-4">
-                                            <div class="favorite-item text-center">
-                                                <img src="${playlist.image}" alt="${playlist.name}" class="mb-2">
-                                                <h5 class="mb-1">${playlist.name}</h5>
-                                                <small class="text-secondary">${playlist.songs.length} canciones</small>
-                                            </div>
-                                        </div>
-                                    `).join('')}
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                } else {
-                    alert('Error al cargar el perfil');
-                }
-            } catch (error) {
-                console.error('Error al cargar los datos del perfil:', error);
-                alert('Ocurrió un error al conectar con el servidor.');
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', loadUserProfile);
-    </script>
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="profile.js"></script>
 </body>
 </html>

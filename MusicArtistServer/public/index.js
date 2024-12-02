@@ -131,7 +131,7 @@ async function loadArtists(genre = null) {
                         <img src="${artist.image}" class="card-img-top" alt="${artist.name}">
                         <div class="card-body text-center">
                             <h5 class="card-title">${artist.name}</h5>
-                            <a href="profile.html?id=${artist._id}" class="btn btn-primary">Ver más</a>
+                            <a href="artist-profile.html?id=${artist._id}" class="btn btn-primary">Ver más</a>
                         </div>
                     </div>
                 </div>

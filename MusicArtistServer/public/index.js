@@ -11,6 +11,70 @@ const artistSection = document.getElementById("artistSection");
 const songTitle = document.getElementById("songTitle");
 const songSection = document.getElementById("songSection");
 
+function createAudioModal() {
+    const modalHTML = `
+        <div class="modal fade" id="audioPlayerModal" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content bg-dark text-white">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Reproduciendo</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <img id="songCover" src="" alt="Album Cover" class="img-fluid mb-3 rounded" style="max-width: 200px;">
+                        <h4 id="songTitle" class="mb-2"></h4>
+                        <p id="artistName" class="text-muted"></p>
+                        <audio id="audioPlayer" controls class="w-100 mt-3">
+                            <source src="" type="audio/mp3">
+                            Tu navegador no soporta el elemento de audio.
+                        </audio>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+}
+
+// Función para reproducir una canción
+async function playSong(songId) {
+    try {
+        // Obtener los datos de la canción desde la API
+        const response = await fetch(`${API_SONGS}/${songId}`);
+        if (!response.ok) {
+            throw new Error("Error al obtener los datos de la canción");
+        }
+        const songData = await response.json();
+
+        // Actualizar el modal con la información de la canción
+        const modal = document.getElementById('audioPlayerModal');
+        const audioPlayer = document.getElementById('audioPlayer');
+        const songCover = document.getElementById('songCover');
+        const songTitle = document.getElementById('songTitle');
+        const artistName = document.getElementById('artistName');
+
+        songCover.src = songData.albumImage || '/images/default-album.jpg'; // Imagen predeterminada si no existe
+        songTitle.textContent = songData.title || "Sin título";
+        artistName.textContent = songData.artist || "Artista desconocido";
+        audioPlayer.src = songData.audioUrl || ""; // Ruta de la canción
+
+        // Mostrar el modal y reproducir la canción
+        const modalInstance = new bootstrap.Modal(modal);
+        modalInstance.show();
+        audioPlayer.play();
+    } catch (error) {
+        console.error("Error al reproducir la canción:", error);
+        alert("No se pudo reproducir la canción. Inténtalo nuevamente.");
+    }
+}
+
+// Evento para inicializar la página
+document.addEventListener("DOMContentLoaded", () => {
+    createAudioModal();
+    loadGenresDropdown();
+    loadPage();
+});
+
 // Cargar géneros en el dropdown
 async function loadGenresDropdown() {
     try {

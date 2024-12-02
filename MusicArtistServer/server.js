@@ -30,12 +30,14 @@ const schemas = {
         genres: [{ type: String, required: true }],
         albums: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Album' }]
     }),
+    
     album: new mongoose.Schema({
         _id: { type: String },
         title: { type: String, required: true },
         artist: { type: String, required: true },
         genre: { type: String, required: true },
-        image: { type: String, required: true }
+        image: { type: String, required: true },
+        songs: [{ type: String, ref: 'Song' }]
     }),
     user: new mongoose.Schema({
         _id: { type: String },
@@ -217,6 +219,24 @@ app.get('/playlists', auth, async (req, res) => {
         res.status(500).json({ error: 'Error al obtener las playlists' });
     }
 });
+app.post('/playlist/:playlistId/songs', auth, async (req, res) => {
+    try {
+        const { songId } = req.body;
+        const user = await User.findById(req.user._id);
+        const playlist = user.playlists.id(req.params.playlistId);
+
+        if (!playlist) {
+            return res.status(404).json({ error: 'Playlist no encontrada' });
+        }
+
+        playlist.songs.push(songId);
+        await user.save();
+        
+        res.json({ message: 'Canción agregada exitosamente' });
+    } catch (error) {
+        res.status(500).json({ error: 'Error al agregar la canción' });
+    }
+});
 
 // Obtener detalles de las canciones de una playlist
 app.get('/playlist/:playlistId/songs', auth, async (req, res) => {
@@ -279,23 +299,35 @@ app.get('/artists', async (req, res) => {
 // Nuevo endpoint para obtener un artista específico por ID
 app.get('/artists/:id', async (req, res) => {
     try {
-        const artist = await Artist.findById(req.params.id)
-            .populate({
-                path: 'albums',
-                populate: {
-                    path: 'songs'
-                }
-            });
-
+        const artist = await Artist.findById(req.params.id);
         if (!artist) {
-            return res.status(404).json({ message: 'Artista no encontrado' });
+            return res.status(404).json({ error: 'Artista no encontrado' });
         }
 
-        res.json(artist);
+        const albums = await Album.find({ artist: artist.name });
+        const albumsWithSongs = await Promise.all(
+            albums.map(async (album) => {
+                const songs = await Song.find({ album: album._id });
+                return {
+                    ...album.toObject(),
+                    songs: songs
+                };
+            })
+        );
+
+        const artistResponse = {
+            ...artist.toObject(),
+            albums: albumsWithSongs
+        };
+
+        res.json(artistResponse);
     } catch (error) {
-        res.status(500).json({ message: 'Error al obtener el artista', error });
+        console.error('Error:', error);
+        res.status(500).json({ error: 'Error al obtener información del artista' });
     }
 });
+
+
 
 app.get('/albums', async (req, res) => {
     try {

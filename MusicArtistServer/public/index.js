@@ -149,47 +149,150 @@ function updateSongTitle(genre) {
     songTitle.textContent = genre ? `Canciones del Género: ${genre}` : "Canciones Destacadas";
 }
 
-// Cargar canciones en la sección
+// Función para cargar canciones
 async function loadSongs(genre = null) {
     try {
         const response = genre
-            ? await fetch(`${API_SONGS}?genre=${genre}`)
-            : await fetch(API_SONGS);
+            ? await fetch(`${API_BASE}/songs?genre=${genre}`)
+            : await fetch(`${API_BASE}/songs`);
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        if (!response.ok) throw new Error('Error en la respuesta del servidor');
 
         const songs = await response.json();
-        songSection.innerHTML = "";
-
-        if (songs.length === 0) {
-            songSection.innerHTML = `<p class="text-center text-muted">No se encontraron canciones para este género.</p>`;
-            return;
-        }
-
-        songs.slice(0, 3).forEach(song => {
-            const albumImage = song.album?.image || '/images/default.jpg';
-            const albumArtist = song.album?.artist || 'Artista desconocido';
-
-            songSection.innerHTML += `
+        songSection.innerHTML = songs.length === 0 
+            ? '<p class="text-center text-muted">No se encontraron canciones.</p>'
+            : songs.slice(0, 3).map(song => `
                 <div class="song-item d-flex align-items-center mb-3">
-                    <img src="${albumImage}" alt="${song.title}" class="me-3"
-                        style="width: 80px; height: 80px; object-fit: cover; border-radius: 5px;">
+                    <img src="${song.album?.image || '/api/placeholder/40/40'}" 
+                         alt="${song.title}" 
+                         class="me-3"
+                         style="width: 80px; height: 80px; object-fit: cover; border-radius: 5px;">
                     <div>
                         <h6 class="mb-0">${song.title}</h6>
-                        <small>${albumArtist}</small><br>
-                        <span class="small text-muted" style="color: #AAA !important;">Duración: ${song.duration || "N/A"}</span>
+                        <small>${song.album?.artist || 'Artista desconocido'}</small><br>
+                        <span class="small text-muted">Duración: ${song.duration || "N/A"}</span>
                     </div>
-                    <button class="btn btn-primary ms-auto">Agregar</button>
+                    <button class="btn btn-primary ms-auto" onclick="handleAddToPlaylist('${song._id}')">
+                        <i class="fas fa-plus"></i>
+                    </button>
                 </div>
-            `;
-        });
+            `).join('');
     } catch (error) {
-        console.error("Error al cargar canciones:", error);
+        console.error("Error detallado:", error);
         songSection.innerHTML = `<p class="text-center text-danger">Ocurrió un error al cargar las canciones.</p>`;
     }
 }
+
+async function handleAddToPlaylist(songId) {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        alert('Debes iniciar sesión para agregar canciones a playlists');
+        window.location.href = 'login.html';
+        return;
+    }
+
+    try {
+        const response = await fetch(`${API_BASE}/playlists`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) throw new Error('Error al obtener playlists');
+        
+        const playlists = await response.json();
+
+        if (playlists.length === 0) {
+            if (confirm('No tienes playlists. ¿Deseas crear una nueva?')) {
+                window.location.href = 'add-playlist.html';
+            }
+            return;
+        }
+
+        const playlistId = await showPlaylistSelector(playlists);
+        if (playlistId) {
+            const addResponse = await fetch(`${API_BASE}/playlist/${playlistId}/songs`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ songId })
+            });
+
+            if (!addResponse.ok) throw new Error('Error al agregar canción');
+            alert('Canción agregada exitosamente');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error al procesar la solicitud: ' + error.message);
+    }
+}
+
+function showPlaylistSelector(playlists) {
+    return new Promise((resolve) => {
+        const modal = document.createElement('div');
+        modal.className = 'modal fade';
+        modal.innerHTML = `
+            <div class="modal-dialog">
+                <div class="modal-content bg-dark text-white">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Seleccionar Playlist</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="list-group bg-dark">
+                            ${playlists.map(playlist => `
+                                <button onclick="selectPlaylist('${playlist._id}')" 
+                                        class="list-group-item list-group-item-action bg-dark text-white">
+                                    ${playlist.name}
+                                </button>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(modal);
+        const modalInstance = new bootstrap.Modal(modal);
+        
+        window.selectPlaylist = (playlistId) => {
+            modalInstance.hide();
+            resolve(playlistId);
+        };
+
+        modal.addEventListener('hidden.bs.modal', () => {
+            document.body.removeChild(modal);
+            resolve(null);
+        });
+
+        modalInstance.show();
+    });
+}
+
+async function addSongToPlaylist(songId, playlistId) {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`${API_BASE}/playlist/${playlistId}/songs`, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ songId })
+    });
+
+    if (!response.ok) {
+        throw new Error('Error al agregar la canción');
+    }
+
+    return response.json();
+}
+
+
+
+
 async function searching(event) {
     event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
 

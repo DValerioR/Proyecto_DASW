@@ -87,53 +87,75 @@ function displayPlaylists(playlists) {
     `).join('');
 }
 
-// Mostrar el contenido de una playlist
-function displayPlaylistContent(playlist) {
+async function displayPlaylistContent(playlist) {
     currentPlaylist = playlist;
     const contentDiv = document.getElementById('playlistContent');
     
-    contentDiv.innerHTML = `
-        <div class="playlist-header mb-4">
-            <div class="d-flex align-items-center">
-                <div class="playlist-image me-4">
-                    <img src="${playlist.image || '/api/placeholder/200/200'}" 
-                         alt="${playlist.name}"
-                         class="rounded"
-                         style="width: 150px; height: 150px; object-fit: cover;">
-                </div>
-                <div>
-                    <h2>${playlist.name}</h2>
-                    <p class="text-muted mb-2">${playlist.songs.length} canciones</p>
+    try {
+        // Obtener detalles completos de las canciones
+        const response = await fetch(`${API_BASE}/playlist/${playlist._id}/songs`, {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Error al obtener detalles de las canciones');
+        }
+
+        const songsDetails = await response.json();
+        
+        contentDiv.innerHTML = `
+            <div class="playlist-header mb-4">
+                <div class="d-flex align-items-center">
+                    <div class="playlist-image me-4">
+                        <img src="/api/placeholder/200/200" 
+                             alt="${playlist.name}"
+                             class="rounded"
+                             style="width: 150px; height: 150px; object-fit: cover;">
+                    </div>
+                    <div>
+                        <h2>${playlist.name}</h2>
+                        <p class="text-muted mb-2">${playlist.songs.length} canciones</p>
+                    </div>
                 </div>
             </div>
-        </div>
-        
-        <div class="playlist-songs">
-            ${playlist.songs.length === 0 ? 
-                '<p class="text-muted">Esta playlist está vacía</p>' : 
-                renderPlaylistSongs(playlist.songs)}
-        </div>
-    `;
+            
+            <div class="playlist-songs">
+                ${renderPlaylistSongs(songsDetails)}
+            </div>
+        `;
+    } catch (error) {
+        console.error('Error:', error);
+        contentDiv.innerHTML = `
+            <div class="alert alert-danger">
+                Error al cargar el contenido de la playlist: ${error.message}
+            </div>
+        `;
+    }
 }
 
-// Renderizar las canciones de la playlist
 function renderPlaylistSongs(songs) {
+    if (!songs || songs.length === 0) {
+        return '<p class="text-muted">Esta playlist está vacía</p>';
+    }
+
     return `
         <div class="song-list">
             ${songs.map((song, index) => `
-                <div class="song-item d-flex align-items-center p-3">
-                    <span class="text-muted me-3">${index + 1}</span>
+                <div class="song-item d-flex align-items-center p-3 border-bottom">
+                    <span class="me-3 text-muted">${index + 1}</span>
                     <img src="${song.album?.image || '/api/placeholder/40/40'}" 
                          alt="${song.title}"
-                         class="me-3 rounded"
-                         style="width: 40px; height: 40px; object-fit: cover;">
+                         class="me-3"
+                         style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px;">
                     <div class="flex-grow-1">
-                        <div>${song.title}</div>
+                        <div class="song-title">${song.title}</div>
                         <small class="text-muted">${song.album?.artist || 'Artista desconocido'}</small>
                     </div>
-                    <div class="text-muted me-3">${song.duration || '--:--'}</div>
-                    <button class="btn btn-sm btn-outline-danger" 
-                            onclick="removeSongFromPlaylist('${song._id}')">
+                    <div class="me-3 text-muted">${song.duration || '--:--'}</div>
+                    <button class="btn btn-sm btn-danger" 
+                            onclick="removeSongFromPlaylist('${song._id}', '${currentPlaylist._id}')">
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
@@ -141,6 +163,7 @@ function renderPlaylistSongs(songs) {
         </div>
     `;
 }
+
 
 // Eliminar una playlist
 async function deletePlaylist(playlistId) {

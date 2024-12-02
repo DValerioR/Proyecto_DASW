@@ -75,6 +75,7 @@ schemas.song.pre('save', async function (next) {
     }
 });
 
+
 schemas.user.pre('save', async function (next) {
     if (this.isNew) {
         this._id = `user-${this.username.toLowerCase().replace(/[^a-z0-9]/g, '')}-${Date.now().toString(36)}`;
@@ -157,6 +158,105 @@ app.get('/songs', async (req, res) => {
     } catch (error) {
         console.error('Error al obtener canciones:', error);
         res.status(500).json({ message: 'Error al obtener canciones', error: error.message });
+    }
+});
+// Endpoints para playlists
+app.post('/playlist', auth, async (req, res) => {
+    try {
+        const user = req.user;
+        const { name, songs } = req.body;
+        
+        // Validar los datos requeridos
+        if (!name || !songs) {
+            return res.status(400).json({ error: 'Nombre y canciones son requeridos' });
+        }
+
+        // Parsear las canciones si vienen como string
+        const songsList = typeof songs === 'string' ? JSON.parse(songs) : songs;
+
+        // Verificar que las canciones existen
+        const existingSongs = await Song.find({ _id: { $in: songsList } });
+        if (existingSongs.length !== songsList.length) {
+            return res.status(400).json({ error: 'Algunas canciones no existen' });
+        }
+
+        // Agregar la nueva playlist al usuario
+        user.playlists.push({
+            name,
+            songs: songsList
+        });
+
+        await user.save();
+        
+        res.status(201).json({
+            message: 'Playlist creada exitosamente',
+            playlist: user.playlists[user.playlists.length - 1]
+        });
+    } catch (error) {
+        console.error('Error al crear playlist:', error);
+        res.status(500).json({ error: 'Error al crear la playlist' });
+    }
+});
+
+
+// Endpoint para obtener todas las playlists del usuario
+app.get('/playlists', auth, async (req, res) => {
+    try {
+        const user = await User.findById(req.user._id);
+        
+        // Si no hay usuario
+        if (!user) {
+            return res.status(404).json({ error: 'Usuario no encontrado' });
+        }
+
+        // Devolver las playlists
+        res.json(user.playlists);
+
+    } catch (error) {
+        console.error('Error al obtener playlists:', error);
+        res.status(500).json({ error: 'Error al obtener las playlists' });
+    }
+});
+
+// Obtener una playlist específica por ID
+app.get('/playlist/:playlistId', auth, async (req, res) => {
+    try {
+        const user = await User.findById(req.user._id);
+        const playlist = user.playlists.id(req.params.playlistId);
+        
+        if (!playlist) {
+            return res.status(404).json({ error: 'Playlist no encontrada' });
+        }
+        
+        res.json(playlist);
+    } catch (error) {
+        console.error('Error al obtener playlist:', error);
+        res.status(500).json({ error: 'Error al obtener la playlist' });
+    }
+});
+
+// Actualizar el endpoint de creación de playlist
+app.post('/playlist', auth, async (req, res) => {
+    try {
+        const user = await User.findById(req.user._id);
+        const { name, songs } = req.body;
+
+        // Validar datos
+        if (!name) {
+            return res.status(400).json({ error: 'El nombre es requerido' });
+        }
+
+        // Crear nueva playlist
+        user.playlists.push({
+            name,
+            songs: songs || []
+        });
+
+        await user.save();
+        res.status(201).json(user.playlists[user.playlists.length - 1]);
+    } catch (error) {
+        console.error('Error al crear playlist:', error);
+        res.status(500).json({ error: 'Error al crear la playlist' });
     }
 });
 

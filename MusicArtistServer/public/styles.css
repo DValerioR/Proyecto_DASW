@@ -98,7 +98,181 @@ body {
     background-color: #1ed760;
     transform: scale(1.05);
 }
+/* Agregar estos estilos a tu archivo styles.css existente */
 
+.song-selection-list {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+}
+
+.song-item {
+    transition: background-color 0.3s ease;
+}
+
+.song-item:hover {
+    background-color: var(--card-bg) !important;
+}
+
+.song-info {
+    margin-left: 1rem;
+}
+
+.form-check-input {
+    cursor: pointer;
+}
+
+.form-check-input:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+/* Estilo para la barra de desplazamiento en la lista de canciones */
+.song-selection-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.song-selection-list::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+}
+
+.song-selection-list::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 3px;
+}
+
+.song-selection-list::-webkit-scrollbar-thumb:hover {
+    background: #1ed760;
+}
+/* Estilos específicos para la página de playlist */
+.playlist-grid {
+    display: grid;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.playlist-card {
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.playlist-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.playlist-image {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+}
+
+.playlist-info {
+    background: linear-gradient(rgba(0,0,0,0.5), var(--card-bg));
+    padding: 1rem;
+}
+
+.playlist-name {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: 1.1rem;
+}
+
+.song-count {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.playlist-actions {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.playlist-card:hover .playlist-actions {
+    opacity: 1;
+}
+
+.song-list {
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.song-item {
+    padding: 0.75rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    transition: background-color 0.3s ease;
+}
+
+.song-item:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+.song-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+    object-fit: cover;
+}
+
+.loading-spinner {
+    text-align: center;
+    color: var(--text-secondary);
+    padding: 2rem;
+}
+
+.playlist-header {
+    padding: 2rem;
+    background: linear-gradient(to bottom, var(--primary-color), var(--card-bg));
+    border-radius: 8px;
+    margin-bottom: 2rem;
+}
+.playlist-content {
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    padding: 2rem;
+    min-height: 500px;
+}
+
+.playlist-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+}
+
+.song-item {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.song-item:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.song-item:last-child {
+    border-bottom: none;
+}
+
+.playlist-card {
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.playlist-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
 /* Recent Songs Styles */
 .recent-songs {
     background-color: var(--card-bg);

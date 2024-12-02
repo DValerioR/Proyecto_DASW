@@ -179,7 +179,7 @@ async function loadSongs(genre = null) {
                     <div>
                         <h6 class="mb-0">${song.title}</h6>
                         <small>${albumArtist}</small><br>
-                        <span class="small text-muted">Duración: ${song.duration || "N/A"}</span>
+                        <span class="small text-muted" style="color: #AAA !important;">Duración: ${song.duration || "N/A"}</span>
                     </div>
                     <button class="btn btn-primary ms-auto">Agregar</button>
                 </div>
@@ -190,8 +190,110 @@ async function loadSongs(genre = null) {
         songSection.innerHTML = `<p class="text-center text-danger">Ocurrió un error al cargar las canciones.</p>`;
     }
 }
+async function searching(event) {
+    event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
+
+    const query = document.getElementById('barSearch').value.trim();
+    if (!query) {
+        alert('Por favor, ingresa un término de búsqueda');
+        return;
+    }
+
+    try {
+        // Realiza la solicitud al backend
+        const response = await fetch(`/search?query=${encodeURIComponent(query)}`);
+        if (!response.ok) {
+            throw new Error('Error en la búsqueda');
+        }
+
+        const results = await response.json(); // Parsear la respuesta como JSON
+        displayResults(results); // Mostrar resultados en la página
+    } catch (error) {
+        console.error('Error al realizar la búsqueda:', error);
+        document.getElementById('searchResults').innerHTML = '<p>Error al realizar la búsqueda.</p>';
+    }
+}
+
+function displayResults(results) {
+    const { artists, albums, songs } = results;
+
+    const resultsDiv = document.getElementById('searchResults');
+    resultsDiv.style.display = 'block';
+    resultsDiv.innerHTML = ''; // Limpiar resultados previos
+
+    // Título general
+    resultsDiv.innerHTML += `<div class="result-title">Resultados:</div>`;
+    resultsDiv.innerHTML += `<button id="closeSearch" class="close-btn" onclick="closeSearch(event)">×</button>`;
+
+    // Mostrar artistas
+    if (artists.length > 0) {
+        resultsDiv.innerHTML += `<h3>Artistas:</h3>`;
+        artists.forEach(artist => {
+            resultsDiv.innerHTML += `
+                <div>
+                    <strong>${artist.name}</strong>
+                    <p>Géneros: ${artist.genres.join(', ')}</p>
+                </div>`;
+        });
+    }
+
+    // Mostrar álbumes
+    if (albums.length > 0) {
+        resultsDiv.innerHTML += `<h3>Álbumes:</h3>`;
+        albums.forEach(album => {
+            resultsDiv.innerHTML += `
+                <div>
+                    <strong>${album.title}</strong>
+                    <p>Artista: ${album.artist.name}</p>
+                </div>`;
+        });
+    }
+
+    // Mostrar canciones
+    if (songs.length > 0) {
+        resultsDiv.innerHTML += `<h3>Canciones:</h3>`;
+        songs.forEach(song => {
+            const albumImage = song.album.imageUrl || 'default-image.jpg';  // Imagen por defecto
+            const albumArtist = song.album.artist.name || 'Desconocido';
+            const duration = song.duration || 'N/A';
+
+            resultsDiv.innerHTML += `
+                <div class="song-item d-flex align-items-center mb-3">
+                    <img src="${albumImage}" alt="${song.title}" class="me-3" 
+                        style="width: 80px; height: 80px; object-fit: cover; border-radius: 5px;">
+                    <div>
+                        <h6 class="mb-0">${song.title}</h6>
+                        <small>${albumArtist}</small><br>
+                        <span class="small text-muted">Duración: ${duration}</span>
+                    </div>
+                    <button class="btn btn-primary ms-auto">Agregar</button>
+                    <button class="btn btn-success ms-2" onclick="playSong('${song.id}')">
+                        <i class="bi bi-play-fill"></i> Reproducir
+                    </button>
+                </div>`;
+        });
+    }
+
+    // Si no hay resultados
+    if (artists.length === 0 && albums.length === 0 && songs.length === 0) {
+        resultsDiv.innerHTML = '<p class="no-results">No se encontraron resultados.</p>';
+    }
+}
+
+// Función para manejar la reproducción de la canción
+function playSong(songId) {
+    console.log(`Reproduciendo la canción con ID: ${songId}`);
+    // Aquí puedes agregar la lógica para reproducir la canción.
+}
 
 
+
+// Función para cerrar los resultados de búsqueda
+function closeSearch(event) {
+    event.preventDefault;
+    const resultsDiv = document.getElementById('searchResults');
+    resultsDiv.style.display = 'none'; // Ocultar los resultados
+}
 
 
 // Cargar página principal o de género

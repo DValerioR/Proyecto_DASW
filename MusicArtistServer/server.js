@@ -135,29 +135,22 @@ app.get('/genres', async (req, res) => {
     }
 });
 
-// Endpoint para canciones
-app.get('/songs', async (req, res) => {
-    const { genre } = req.query;
+// Obtener detalles de una canción específica
+app.get('/songs/:id', auth, async (req, res) => {
     try {
-        let query = {};
+        const song = await Song.findById(req.params.id)
+            .populate('album');
 
-        if (genre) {
-            // Buscar los álbumes que coincidan con el género
-            const albums = await Album.find({ genre }, '_id'); // Obtener solo los IDs de los álbumes
-            if (albums.length === 0) {
-                return res.json([]); // No hay álbumes para este género
-            }
-
-            const albumIds = albums.map(album => album._id); // Extraer los IDs de los álbumes
-            query = { album: { $in: albumIds } }; // Filtrar canciones que pertenezcan a estos álbumes
+        if (!song) {
+            return res.status(404).json({ error: 'Canción no encontrada' });
         }
 
-        // Buscar canciones con el query generado
-        const songs = await Song.find(query).populate('album', 'title artist image');
-        res.json(songs);
+        res.json(song);
     } catch (error) {
-        console.error('Error al obtener canciones:', error);
-        res.status(500).json({ message: 'Error al obtener canciones', error: error.message });
+        console.error('Error al obtener canción:', error);
+        res.status(500).json({ 
+            error: 'Error al obtener información de la canción' 
+        });
     }
 });
 // Endpoints para playlists
@@ -202,19 +195,39 @@ app.post('/playlist', auth, async (req, res) => {
 // Endpoint para obtener todas las playlists del usuario
 app.get('/playlists', auth, async (req, res) => {
     try {
-        const user = await User.findById(req.user._id);
-        
-        // Si no hay usuario
-        if (!user) {
-            return res.status(404).json({ error: 'Usuario no encontrado' });
-        }
+        const user = await User.findById(req.user._id)
+            .populate({
+                path: 'playlists.songs',
+                populate: {
+                    path: 'album'
+                }
+            });
 
-        // Devolver las playlists
         res.json(user.playlists);
-
     } catch (error) {
         console.error('Error al obtener playlists:', error);
         res.status(500).json({ error: 'Error al obtener las playlists' });
+    }
+});
+// Obtener detalles de las canciones de una playlist
+app.get('/playlist/:playlistId/songs', auth, async (req, res) => {
+    try {
+        const user = await User.findById(req.user._id);
+        const playlist = user.playlists.id(req.params.playlistId);
+        
+        if (!playlist) {
+            return res.status(404).json({ error: 'Playlist no encontrada' });
+        }
+
+        // Obtener detalles completos de cada canción
+        const songDetails = await Song.find({
+            '_id': { $in: playlist.songs }
+        }).populate('album');
+
+        res.json(songDetails);
+    } catch (error) {
+        console.error('Error al obtener canciones:', error);
+        res.status(500).json({ error: 'Error al obtener las canciones de la playlist' });
     }
 });
 
@@ -261,12 +274,34 @@ app.post('/playlist', auth, async (req, res) => {
 });
 
 
+// Endpoint existente para listar artistas
 app.get('/artists', async (req, res) => {
     try {
         const artists = await Artist.find(req.query.genre ? { genres: req.query.genre } : {}).populate('albums');
         res.json(artists);
     } catch (error) {
         res.status(500).json({ message: 'Error al obtener artistas', error });
+    }
+});
+
+// Nuevo endpoint para obtener un artista específico por ID
+app.get('/artists/:id', async (req, res) => {
+    try {
+        const artist = await Artist.findById(req.params.id)
+            .populate({
+                path: 'albums',
+                populate: {
+                    path: 'songs'
+                }
+            });
+
+        if (!artist) {
+            return res.status(404).json({ message: 'Artista no encontrado' });
+        }
+
+        res.json(artist);
+    } catch (error) {
+        res.status(500).json({ message: 'Error al obtener el artista', error });
     }
 });
 

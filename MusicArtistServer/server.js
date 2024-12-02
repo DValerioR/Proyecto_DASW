@@ -218,8 +218,8 @@ app.get('/playlists', auth, async (req, res) => {
     }
 });
 
-// Obtener una playlist específica por ID
-app.get('/playlist/:playlistId', auth, async (req, res) => {
+// Obtener detalles de las canciones de una playlist
+app.get('/playlist/:playlistId/songs', auth, async (req, res) => {
     try {
         const user = await User.findById(req.user._id);
         const playlist = user.playlists.id(req.params.playlistId);
@@ -227,11 +227,16 @@ app.get('/playlist/:playlistId', auth, async (req, res) => {
         if (!playlist) {
             return res.status(404).json({ error: 'Playlist no encontrada' });
         }
-        
-        res.json(playlist);
+
+        // Obtener detalles completos de cada canción
+        const songDetails = await Song.find({
+            '_id': { $in: playlist.songs }
+        }).populate('album');
+
+        res.json(songDetails);
     } catch (error) {
-        console.error('Error al obtener playlist:', error);
-        res.status(500).json({ error: 'Error al obtener la playlist' });
+        console.error('Error al obtener canciones:', error);
+        res.status(500).json({ error: 'Error al obtener las canciones de la playlist' });
     }
 });
 

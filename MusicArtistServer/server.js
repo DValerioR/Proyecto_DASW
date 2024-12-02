@@ -8,6 +8,71 @@ const jwt = require('jsonwebtoken');
 const app = express();
 const PORT = 3000;
 
+
+
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+
+// Configuración de multer para guardar canciones e imágenes
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        const uploadsDir = file.fieldname === 'audioFile' ? 'public/uploads/songs' : 'public/uploads/images';
+        if (!fs.existsSync(uploadsDir)) {
+            fs.mkdirSync(uploadsDir, { recursive: true });
+        }
+        cb(null, uploadsDir);
+    },
+    filename: (req, file, cb) => {
+        const uniqueName = `${Date.now()}-${file.originalname.replace(/\s+/g, '_')}`;
+        cb(null, uniqueName);
+    }
+});
+const upload = multer({ storage });
+
+// Endpoint para subir canciones
+app.post('/upload', auth, upload.fields([{ name: 'audioFile', maxCount: 1 }, { name: 'coverImage', maxCount: 1 }]), async (req, res) => {
+    try {
+        if (!req.user.isArtist) {
+            return res.status(403).json({ error: 'Solo los artistas pueden subir canciones' });
+        }
+
+        const { title, genre } = req.body;
+        if (!title || !genre || !req.files.audioFile || !req.files.coverImage) {
+            return res.status(400).json({ error: 'Título, género, archivo de audio e imagen de portada son requeridos' });
+        }
+
+        const audioFilePath = `/uploads/songs/${req.files.audioFile[0].filename}`;
+        const coverImagePath = `/uploads/images/${req.files.coverImage[0].filename}`;
+
+        const song = new Song({
+            title,
+            genre,
+            music: audioFilePath,
+            coverImage: coverImagePath
+        });
+
+        await song.save();
+        res.status(201).json({ message: 'Canción subida exitosamente', song });
+    } catch (error) {
+        console.error('Error al subir canción:', error);
+        res.status(500).json({ error: 'Error al subir canción' });
+    }
+});
+
+// Endpoint para obtener canciones por género o todas
+app.get('/songs', async (req, res) => {
+    const { genre } = req.query;
+    try {
+        const query = genre ? { genre } : {};
+        const songs = await Song.find(query);
+        res.json(songs);
+    } catch (error) {
+        console.error('Error al obtener canciones:', error);
+        res.status(500).json({ error: 'Error al obtener canciones' });
+    }
+});
+
 // Middleware
 app.use(cors());
 app.use(express.json());

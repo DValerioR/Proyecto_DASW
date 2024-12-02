@@ -266,12 +266,34 @@ app.post('/playlist', auth, async (req, res) => {
 });
 
 
+// Endpoint existente para listar artistas
 app.get('/artists', async (req, res) => {
     try {
         const artists = await Artist.find(req.query.genre ? { genres: req.query.genre } : {}).populate('albums');
         res.json(artists);
     } catch (error) {
         res.status(500).json({ message: 'Error al obtener artistas', error });
+    }
+});
+
+// Nuevo endpoint para obtener un artista específico por ID
+app.get('/artists/:id', async (req, res) => {
+    try {
+        const artist = await Artist.findById(req.params.id)
+            .populate({
+                path: 'albums',
+                populate: {
+                    path: 'songs'
+                }
+            });
+
+        if (!artist) {
+            return res.status(404).json({ message: 'Artista no encontrado' });
+        }
+
+        res.json(artist);
+    } catch (error) {
+        res.status(500).json({ message: 'Error al obtener el artista', error });
     }
 });
 

@@ -214,38 +214,31 @@ function updateSongTitle(genre) {
 }
 
 // Función para cargar canciones
-async function loadSongs(genre = null) {
+async function loadSongs() {
     try {
-        const response = genre
-            ? await fetch(`${API_BASE}/songs?genre=${genre}`)
-            : await fetch(`${API_BASE}/songs`);
-
-        if (!response.ok) throw new Error('Error en la respuesta del servidor');
+        const response = await fetch('http://localhost:3000/songs');
+        if (!response.ok) {
+            throw new Error('Error al obtener las canciones');
+        }
 
         const songs = await response.json();
-        songSection.innerHTML = songs.length === 0 
-            ? '<p class="text-center text-muted">No se encontraron canciones.</p>'
-            : songs.slice(0, 3).map(song => `
-                <div class="song-item d-flex align-items-center mb-3">
-                    <img src="${song.album?.image || '/api/placeholder/40/40'}" 
-                         alt="${song.title}" 
-                         class="me-3"
-                         style="width: 80px; height: 80px; object-fit: cover; border-radius: 5px;">
-                    <div>
-                        <h6 class="mb-0">${song.title}</h6>
-                        <small>${song.album?.artist || 'Artista desconocido'}</small><br>
-                        <span class="small text-muted">Duración: ${song.duration || "N/A"}</span>
-                    </div>
-                    <button class="btn btn-primary ms-auto" onclick="handleAddToPlaylist('${song._id}')">
-                        <i class="fas fa-plus"></i>
-                    </button>
-                </div>
-            `).join('');
+        const songList = document.getElementById('songList'); // Contenedor de la lista de canciones
+
+        songList.innerHTML = songs.map(song => `
+            <div class="song-item">
+                <img src="${song.coverImage}" alt="${song.title}" class="cover-image">
+                <h5>${song.title}</h5>
+                <p>Género: ${song.genre}</p>
+                <button class="btn btn-primary" onclick="playSong('${song._id}')">Reproducir</button>
+            </div>
+        `).join('');
     } catch (error) {
-        console.error("Error detallado:", error);
-        songSection.innerHTML = `<p class="text-center text-danger">Ocurrió un error al cargar las canciones.</p>`;
+        console.error('Error:', error);
+        alert('Error al cargar las canciones');
     }
 }
+
+document.addEventListener('DOMContentLoaded', loadSongs);
 
 async function handleAddToPlaylist(songId) {
     const token = localStorage.getItem('token');

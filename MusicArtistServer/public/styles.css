@@ -440,3 +440,124 @@ body {
 ::-webkit-scrollbar-thumb:hover {
     background: var(--primary-color);
 }
+
+.search-results-container {
+    background-color: #000;  
+    color: #fff;             
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    display: none; 
+    position: relative; 
+}
+
+.search-results-container .result-title {
+    font-size: 1.5rem;
+    color: #2e8b57;  
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.search-results-container h3 {
+    font-size: 1.25rem;
+    color: #2e8b57; 
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.search-results-container p {
+    color: #bbb; 
+}
+
+.search-results-container div {
+    padding: 10px;
+    margin-bottom: 15px;
+    background-color: #333;  
+    border-radius: 8px;
+}
+
+.search-results-container .no-results {
+    color: #f44336;  
+    font-weight: bold;
+}
+
+.small{
+    color: #fff;
+}
+
+.search-results-container .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.search-results-container .close-btn:hover {
+    color: #f44336; 
+}
+.search-results-container {
+    background-color: #000;  /* Fondo negro */
+    color: #fff;             /* Texto blanco */
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    display: none; /* Ocultar por defecto */
+    position: relative; /* Para poder posicionar el botón de cerrar */
+}
+
+.search-results-container .result-title {
+    font-size: 1.5rem;
+    color: #2e8b57;  
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.search-results-container h3 {
+    font-size: 1.25rem;
+    color: #2e8b57; 
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.search-results-container p {
+    color: #bbb; 
+}
+
+.search-results-container div {
+    padding: 10px;
+    margin-bottom: 15px;
+    background-color: #333; 
+    border-radius: 8px;
+}
+
+.search-results-container .no-results {
+    color: #f44336;  
+    font-weight: bold;
+}
+
+.small{
+    color: #fff;
+}
+
+.search-results-container .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.search-results-container .close-btn:hover {
+    color: #f44336; 
+}
